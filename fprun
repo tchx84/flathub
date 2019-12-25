@@ -1,0 +1,3 @@
+#!/bin/bash
+
+SUGAR_BUNDLE_ID=vu.lux.olpc.Maze SUGAR_BUNDLE_PATH=$PWD sugarapp

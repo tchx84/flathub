@@ -1,0 +1,3 @@
+#!/bin/bash
+
+flatpak run --command=bash --filesystem=$PWD --socket=session-bus  org.sugarlabs.AbacusActivity
