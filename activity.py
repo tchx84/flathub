@@ -246,8 +246,8 @@ class MazeActivity(SugarCompatibleActivity):
                 'finish_time': self.game.finish_time,
                 'risk': self.game.maze.risk}
 
-        logging.debug('Saving data: %s', data)
-        self.metadata['state'] = json.dumps(data)
+        with open(file_path, 'w') as save_file:
+            save_file.write(json.dumps(data))
 
     def can_close(self):
         self.game.close_finish_window()
