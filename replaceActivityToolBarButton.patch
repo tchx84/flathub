@@ -1,0 +1,24 @@
+diff --git a/activity.py b/activity.py
+index 481c231..9e07e07 100755
+--- a/activity.py
++++ b/activity.py
+@@ -12,9 +12,9 @@ from gi.repository import Gdk
+ from gi.repository import Gtk
+ 
+ from sugarapp.widgets import SugarCompatibleActivity
++from sugarapp.widgets import ExtendedActivityToolbarButton
+ 
+ from sugar3.presence.presenceservice import PresenceService
+-from sugar3.activity.widgets import ActivityToolbarButton
+ from sugar3.activity.widgets import StopButton
+ from sugar3.graphics.toolbarbox import ToolbarBox
+ from sugar3.graphics.toolbutton import ToolButton
+@@ -87,7 +87,7 @@ class MazeActivity(SugarCompatibleActivity):
+         """Build our Activity toolbar for the Sugar system."""
+ 
+         toolbar_box = ToolbarBox()
+-        activity_button = ActivityToolbarButton(self)
++        activity_button = ExtendedActivityToolbarButton(self)
+         toolbar_box.toolbar.insert(activity_button, 0)
+         activity_button.show()
+ 
