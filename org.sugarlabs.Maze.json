@@ -1,5 +1,5 @@
 {
-    "app-id": "org.sugarlabs.MazeActivity",
+    "app-id": "org.sugarlabs.Maze",
     "runtime": "org.gnome.Platform",
     "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
@@ -10,7 +10,7 @@
         "--socket=pulseaudio",
         "--share=ipc",
         "--device=dri",
-        "--env=SUGAR_BUNDLE_ID=org.sugarlabs.MazeActivity",
+        "--env=SUGAR_BUNDLE_ID=org.sugarlabs.Maze",
         "--env=SUGAR_BUNDLE_PATH=/app/share/sugar/activities/Maze.activity"
     ],
     "cleanup": [
@@ -228,14 +228,11 @@
                 }
             ],
             "post-install": [
-                "sugarapp-gen-mimetypes activity/activity.info mimetypes",
                 "sugarapp-gen-appdata activity/activity.info appdata",
-                "sugarapp-gen-desktop activity/activity.info desktop --mimetypes mimetypes",
-                "install -D mimetypes /app/share/mime/packages/org.sugarlabs.MazeActivity.xml",
-                "install -D mimetypes /app/share/sugar/activities/Maze.activity/activity/mimetypes.xml",
-                "install -D appdata /app/share/metainfo/org.sugarlabs.MazeActivity.appdata.xml",
-                "install -D desktop /app/share/applications/org.sugarlabs.MazeActivity.desktop",
-                "install -D activity/activity-maze.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.MazeActivity.svg"
+                "sugarapp-gen-desktop activity/activity.info desktop",
+                "install -D appdata /app/share/metainfo/org.sugarlabs.Maze.appdata.xml",
+                "install -D desktop /app/share/applications/org.sugarlabs.Maze.desktop",
+                "install -D activity/activity-maze.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Maze.svg"
             ]
         }
     ]
