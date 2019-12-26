@@ -1,8 +1,8 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index abb1d02..02c544f 100644
+index abb1d02..cff396b 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
-@@ -3,9 +3,14 @@ name = Maze
+@@ -3,9 +3,15 @@ name = Maze
  exec = sugar-activity3 activity.MazeActivity
  icon = activity-maze
  activity_version = 29
@@ -17,4 +17,5 @@ index abb1d02..02c544f 100644
  repository = https://github.com/sugarlabs/maze-activity
  tags = Game
 +description = A simple maze game for the Sugar learning environment
++screenshots = https://i.imgur.com/DqZbIHp.png https://i.imgur.com/KW82dql.png https://i.imgur.com/UzxCIGe.png
 +developer_name = Sugar Labs Community
