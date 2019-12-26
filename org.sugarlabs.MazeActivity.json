@@ -4,7 +4,6 @@
     "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
     "separate-locales": false,
-
     "command": "sugarapp",
     "finish-args": [
         "--socket=x11",
@@ -22,6 +21,8 @@
         "/share/man"
     ],
     "modules": [
+        "shared-modules/dbus-glib/dbus-glib-0.110.json",
+        "shared-modules/intltool/intltool-0.51.json",
         {
             "name": "empy",
             "cleanup": [ "*" ],
@@ -47,8 +48,7 @@
             "cleanup": [ "*" ],
             "no-autogen": true,
             "build-options": {
-                "no-debuginfo": true,
-                "env": "/app/lib/perl5/site_perl/5.30.0/"
+                "no-debuginfo": true
             },
             "sources": [
                 {
@@ -83,18 +83,12 @@
                     "url": "http://tango.freedesktop.org/releases/icon-naming-utils-0.8.90.tar.gz",
                     "sha256": "044ab2199ed8c6a55ce36fd4fcd8b8021a5e21f5bab028c0a7cdcf52a5902e1c"
                 }
-            ]
-        },
-        {
-            "name": "intltool",
-            "cleanup": [ "*" ],
-            "sources": [
-                {
-                  "type": "archive",
-                  "url": "https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz",
-                  "sha256": "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
+            ],
+            "build-options": {
+                "env": {
+                    "PERL5LIB": "/app/lib/perl5/site_perl/5.30.0/"
                 }
-            ]
+            }
         },
         {
             "name": "sugar-artwork",
@@ -114,7 +108,12 @@
                     "type": "patch",
                     "path": "artwork-nogtk2.patch"
                 }
-            ]
+            ],
+            "build-options": {
+                "env": {
+                    "PERL5LIB": "/app/lib/perl5/site_perl/5.30.0/"
+                }
+            }
         },
         {
             "name": "python-dbus",
@@ -159,29 +158,6 @@
             ]
         },
         {
-            "name": "dbus-glib",
-            "cleanup": [
-                "*.la",
-                "/bin",
-                "/etc",
-                "/include",
-                "/libexec",
-                "/share/gtk-doc",
-                "/share/man"
-            ],
-            "config-opts": [
-                "--disable-static",
-                "--disable-gtk-doc"
-            ],
-            "sources": [
-                {
-                    "type": "archive",
-                    "url": "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.110.tar.gz",
-                    "sha256": "7ce4760cf66c69148f6bd6c92feaabb8812dee30846b24cd0f7395c436d7e825"
-                }
-            ]
-        },
-        {
             "name": "telepathy-glib",
             "config-opts": ["--disable-static", "--disable-gtk-doc"],
             "sources": [
@@ -222,7 +198,7 @@
                     "type": "git",
                     "url": "https://github.com/tchx84/sugarapp.git",
                     "tag": "v1.10",
-                    "commit": "ea6ee3cb3c1289d4112cf5fc6c4db0ab5cd9d8d6"
+                    "commit": "54b0efdc0bbef60d48685aa2a1559a3fb8f2ddf5"
                 }
             ]
         },
