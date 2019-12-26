@@ -1,0 +1,60 @@
+diff --git a/activity.py b/activity.py
+index 5eb236a..d254c77 100755
+--- a/activity.py
++++ b/activity.py
+@@ -11,9 +11,7 @@ from gi.repository import GLib
+ from gi.repository import Gdk
+ from gi.repository import Gtk
+ 
+-from sugar3.activity import activity
+ from sugar3.presence.presenceservice import PresenceService
+-from sugar3.activity.widgets import ActivityToolbarButton
+ from sugar3.activity.widgets import StopButton
+ from sugar3.graphics.toolbarbox import ToolbarBox
+ from sugar3.graphics.toolbutton import ToolButton
+@@ -26,19 +24,18 @@ from gettext import gettext as _
+ from textchannel import TextChannelWrapper
+ import game
+ 
++from sugarapp.widgets import SugarCompatibleActivity
++from sugarapp.widgets import ExtendedActivityToolbarButton
+ 
+-class MazeActivity(activity.Activity):
++
++class MazeActivity(SugarCompatibleActivity):
+ 
+     def __init__(self, handle):
+         """Set up the Maze activity."""
+-        activity.Activity.__init__(self, handle)
++        SugarCompatibleActivity.__init__(self, handle)
+         self._busy_count = 0
+         self._unbusy_idle_sid = None
+-
+-        if 'state' in self.metadata:
+-            self.state = json.loads(self.metadata['state'])
+-        else:
+-            self.state = None
++        self.state = None
+ 
+         self.build_toolbar()
+ 
+@@ -91,7 +88,7 @@ class MazeActivity(activity.Activity):
+         """Build our Activity toolbar for the Sugar system."""
+ 
+         toolbar_box = ToolbarBox()
+-        activity_button = ActivityToolbarButton(self)
++        activity_button = ExtendedActivityToolbarButton(self)
+         toolbar_box.toolbar.insert(activity_button, 0)
+         activity_button.show()
+ 
+@@ -250,8 +247,8 @@ class MazeActivity(activity.Activity):
+                 'finish_time': self.game.finish_time,
+                 'risk': self.game.maze.risk}
+ 
+-        logging.debug('Saving data: %s', data)
+-        self.metadata['state'] = json.dumps(data)
++        with open(file_path, 'w') as save_file:
++            save_file.write(json.dumps(data))
+ 
+     def can_close(self):
+         self.game.close_finish_window()
