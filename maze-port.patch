@@ -1,5 +1,5 @@
 diff --git a/activity.py b/activity.py
-index 5eb236a..6d1d633 100755
+index 5eb236a..b00e1e0 100755
 --- a/activity.py
 +++ b/activity.py
 @@ -11,7 +11,6 @@ from gi.repository import GLib
@@ -10,7 +10,7 @@ index 5eb236a..6d1d633 100755
  from sugar3.presence.presenceservice import PresenceService
  from sugar3.activity.widgets import ActivityToolbarButton
  from sugar3.activity.widgets import StopButton
-@@ -26,15 +25,17 @@ from gettext import gettext as _
+@@ -26,12 +25,14 @@ from gettext import gettext as _
  from textchannel import TextChannelWrapper
  import game
  
@@ -26,8 +26,3 @@ index 5eb236a..6d1d633 100755
 +        SugarCompatibleActivity.__init__(self, handle)
          self._busy_count = 0
          self._unbusy_idle_sid = None
--
-+        
-         if 'state' in self.metadata:
-             self.state = json.loads(self.metadata['state'])
-         else:
