@@ -4,11 +4,7 @@
     "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
     "separate-locales": false,
-    "build-options": {
-        "env": {
-            "PERL5LIB": "/app/lib/perl5/site_perl/5.30.0/"
-        }
-    },
+
     "command": "sugarapp",
     "finish-args": [
         "--socket=x11",
@@ -51,7 +47,8 @@
             "cleanup": [ "*" ],
             "no-autogen": true,
             "build-options": {
-                "no-debuginfo": true
+                "no-debuginfo": true,
+                "env": "/app/lib/perl5/site_perl/5.30.0/"
             },
             "sources": [
                 {
