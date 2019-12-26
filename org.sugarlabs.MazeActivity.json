@@ -224,7 +224,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/tchx84/sugarapp.git",
-                    "tag": "v1.5",
+                    "tag": "v1.10",
                     "commit": "ea6ee3cb3c1289d4112cf5fc6c4db0ab5cd9d8d6"
                 }
             ]
