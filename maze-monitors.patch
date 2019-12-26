@@ -1,5 +1,5 @@
 diff --git a/game.py b/game.py
-index 7bfa351..471da01 100644
+index 7bfa351..3c8085d 100644
 --- a/game.py
 +++ b/game.py
 @@ -43,6 +43,8 @@ from maze import Maze, Rectangle
@@ -11,16 +11,17 @@ index 7bfa351..471da01 100644
  
  class MazeGame(Gtk.DrawingArea):
      """Maze game controller.
-@@ -79,7 +81,7 @@ class MazeGame(Gtk.DrawingArea):
+@@ -79,8 +81,7 @@ class MazeGame(Gtk.DrawingArea):
          # keep a list of all players, local and remote,
          self.allplayers = [] + self.localplayers
  
 -        screen = Gdk.Screen.get_default()
-+        screen = PrimaryMonitor
-         self.aspectRatio = float(screen.width()) / screen.height()
+-        self.aspectRatio = float(screen.width()) / screen.height()
++        self.aspectRatio = float(PrimaryMonitor.width()) / PrimaryMonitor.height()
  
          # start with a small maze using a seed that will be different
-@@ -152,8 +154,8 @@ class MazeGame(Gtk.DrawingArea):
+         # each time you play
+@@ -152,8 +153,8 @@ class MazeGame(Gtk.DrawingArea):
  
      def __configure_cb(self, event):
          ''' Screen size has changed '''
