@@ -1,5 +1,5 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..a4a499d 100755
+index d91ea44..f0ac117 100755
 --- a/activity.py
 +++ b/activity.py
 @@ -1,4 +1,4 @@
@@ -8,7 +8,7 @@ index d91ea44..a4a499d 100755
  # -*- coding: utf-8 -*-
  #
  # Pointillism
-@@ -24,13 +24,19 @@
+@@ -24,13 +24,20 @@
  
  import puntillism
  from gettext import gettext as _
@@ -17,21 +17,21 @@ index d91ea44..a4a499d 100755
  from sugar3.graphics.objectchooser import ObjectChooser
  from sugar3.graphics.toolbutton import ToolButton
  from sugar3.activity.widgets import StopButton
--from sugar3.activity.widgets import ActivityToolbarButton
-+# from sugar3.activity.widgets import ActivityToolbarButton
+ from sugar3.activity.widgets import ActivityToolbarButton
  from sugar3.graphics.toolbarbox import ToolbarBox
 -from sugar3.activity import activity
 +# from sugar3.activity import activity
 +import shutil
 +import sys
 +from sugarapp.widgets import SugarCompatibleActivity
-+from sugarapp.widgets import ExtendedActivityToolbarButton
 +from sugarapp.widgets import DesktopSaveChooser
 +from sugarapp.widgets import DesktopOpenChooser
++from sugar3.graphics.style import GRID_CELL_SIZE
++from sugarapp.helpers import PrimaryMonitor
  from sugar3 import mime
  import sugargame.canvas
  import sugargame
-@@ -43,10 +49,10 @@ gi.require_version('Gdk', '3.0')
+@@ -43,10 +50,10 @@ gi.require_version('Gdk', '3.0')
  gi.require_version('Gtk', '3.0')
  
  
@@ -44,22 +44,34 @@ index d91ea44..a4a499d 100755
  
          self.max_participants = 1
          self.file_path_temp = None
-@@ -69,7 +75,7 @@ class Activity(activity.Activity):
-     def build_toolbar(self):
+@@ -56,13 +63,16 @@ class Activity(activity.Activity):
+         self.actividad = puntillism.Puntillism(self)
  
-         toolbar_box = ToolbarBox()
--        activity_button = ActivityToolbarButton(self)
-+        activity_button = ExtendedActivityToolbarButton(self)
-         toolbar_box.toolbar.insert(activity_button, -1)
-         activity_button.show()
+         self.build_toolbar()
+-
++        
++        w = PrimaryMonitor.width()
++        h = PrimaryMonitor.height() - 1 * GRID_CELL_SIZE
++ 
+         self._pygamecanvas = \
+             sugargame.canvas.PygameCanvas(
+                 self,
+                 main=self.actividad.run,
+                 modules=[pygame.display])
+-
++        self._pygamecanvas.set_size_request(w, h)
+         self.set_canvas(self._pygamecanvas)
+         self._pygamecanvas.grab_focus()
  
-@@ -155,19 +161,18 @@ class Activity(activity.Activity):
+@@ -155,19 +165,17 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
 -
 +    
 +    def can_close(self):
++        self.actividad.running = False
++        self.load_image_loop = False
 +        sys.exit(0)
 +    
      def save_image(self, image):
@@ -77,14 +89,11 @@ index d91ea44..a4a499d 100755
 +        chooser = DesktopSaveChooser(self, filename='pointiliism.png')
 +        filename = chooser.get_filename()
 +        if filename:
-+            # shutil.copyfile(self._ogg_tempfile.name, filename)
 +            pygame.image.save(image, filename)
-+        if not filename:
-+            return False        
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -176,26 +181,10 @@ class Activity(activity.Activity):
+@@ -176,26 +184,11 @@ class Activity(activity.Activity):
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
          self.image_id = None
@@ -109,6 +118,7 @@ index d91ea44..a4a499d 100755
 -                del self.chooser
 -                return self.file_path_temp
 +        self.chooser = DesktopOpenChooser(self)
++        self.chooser.add_filter('.png', 'PNG', 'jpg', 'JPEG', 'jpeg', 'JPG')
 +        filepath0 = self.chooser.get_filename()
 +        return filepath0
  

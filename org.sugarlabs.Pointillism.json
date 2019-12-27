@@ -21,18 +21,9 @@
         "/share/man"
     ],
     "modules": [
-
         "shared-modules/dbus-glib/dbus-glib-0.110.json",
         "shared-modules/intltool/intltool-0.51.json",
-         
         "shared-modules/pygame/pygame-1.9.4.json",
-        "shared-modules/SDL/SDL-1.2.15.json",
-        "shared-modules/SDL/SDL_image-1.2.12.json",
-        "shared-modules/SDL/SDL_ttf-2.0.11.json",
-        "shared-modules/smpeg/smpeg-0.4.5.json",
-        "shared-modules/SDL/SDL_mixer-1.2.12.json",
-
-
         {
             "name": "empy",
             "cleanup": [ "*" ],
@@ -242,9 +233,6 @@
             "post-install": [
                 "sugarapp-gen-mimetypes activity/activity.info mimetypes",
                 "sugarapp-gen-appdata activity/activity.info appdata",
-                "sugarapp-gen-desktop activity/activity.info desktop --mimetypes mimetypes",
-                "install -D mimetypes /app/share/mime/packages/org.sugarlabs.Pointillism.xml",
-                "install -D mimetypes /app/share/sugar/activities/Pointillism.activity/activity/mimetypes.xml",
                 "install -D appdata /app/share/metainfo/org.sugarlabs.Pointillism.appdata.xml",
                 "install -D desktop /app/share/applications/org.sugarlabs.Pointillism.desktop",
                 "install -D activity/activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Pointillism.svg"
