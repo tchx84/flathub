@@ -95,6 +95,7 @@ index d91ea44..22b03fc 100755
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
          self.image_id = None
+-        ##
          self.chooser = None
 -        try:
 -            self.chooser = ObjectChooser(
