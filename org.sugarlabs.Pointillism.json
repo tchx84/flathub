@@ -203,8 +203,6 @@
                 }
             ]
         },
-        
-        
         {
             "name": "pointillism",
             "buildsystem" : "simple",
@@ -216,10 +214,6 @@
                     "type": "git",
                     "url": "https://github.com/sugarlabs/pointillism-activity",
                     "commit": "ca8068cb39155a50f88c6458dbd42242bc150fd3"
-                },
-                {
-                    "type": "patch",
-                    "path": "sugargame.canvas.patch"
                 },
                 {
                     "type": "patch",
