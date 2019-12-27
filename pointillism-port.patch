@@ -1,5 +1,5 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..f0ac117 100755
+index d91ea44..22b03fc 100755
 --- a/activity.py
 +++ b/activity.py
 @@ -1,4 +1,4 @@
@@ -8,7 +8,7 @@ index d91ea44..f0ac117 100755
  # -*- coding: utf-8 -*-
  #
  # Pointillism
-@@ -24,13 +24,20 @@
+@@ -24,13 +24,19 @@
  
  import puntillism
  from gettext import gettext as _
@@ -22,7 +22,6 @@ index d91ea44..f0ac117 100755
 -from sugar3.activity import activity
 +# from sugar3.activity import activity
 +import shutil
-+import sys
 +from sugarapp.widgets import SugarCompatibleActivity
 +from sugarapp.widgets import DesktopSaveChooser
 +from sugarapp.widgets import DesktopOpenChooser
@@ -31,7 +30,7 @@ index d91ea44..f0ac117 100755
  from sugar3 import mime
  import sugargame.canvas
  import sugargame
-@@ -43,10 +50,10 @@ gi.require_version('Gdk', '3.0')
+@@ -43,10 +49,10 @@ gi.require_version('Gdk', '3.0')
  gi.require_version('Gtk', '3.0')
  
  
@@ -44,7 +43,7 @@ index d91ea44..f0ac117 100755
  
          self.max_participants = 1
          self.file_path_temp = None
-@@ -56,13 +63,16 @@ class Activity(activity.Activity):
+@@ -56,13 +62,16 @@ class Activity(activity.Activity):
          self.actividad = puntillism.Puntillism(self)
  
          self.build_toolbar()
@@ -63,7 +62,7 @@ index d91ea44..f0ac117 100755
          self.set_canvas(self._pygamecanvas)
          self._pygamecanvas.grab_focus()
  
-@@ -155,19 +165,17 @@ class Activity(activity.Activity):
+@@ -155,19 +164,16 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
@@ -72,7 +71,6 @@ index d91ea44..f0ac117 100755
 +    def can_close(self):
 +        self.actividad.running = False
 +        self.load_image_loop = False
-+        sys.exit(0)
 +    
      def save_image(self, image):
 -        journalobj = datastore.create()
@@ -93,11 +91,10 @@ index d91ea44..f0ac117 100755
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -176,26 +184,11 @@ class Activity(activity.Activity):
+@@ -176,26 +182,16 @@ class Activity(activity.Activity):
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
          self.image_id = None
--        ##
          self.chooser = None
 -        try:
 -            self.chooser = ObjectChooser(
@@ -118,7 +115,12 @@ index d91ea44..f0ac117 100755
 -                del self.chooser
 -                return self.file_path_temp
 +        self.chooser = DesktopOpenChooser(self)
-+        self.chooser.add_filter('.png', 'PNG', 'jpg', 'JPEG', 'jpeg', 'JPG')
++        self.chooser.add_filter('.png')
++        self.chooser.add_filter('.PNG')
++        self.chooser.add_filter('.jpg')
++        self.chooser.add_filter('.JPEG')
++        self.chooser.add_filter('.jpeg')
++        self.chooser.add_filter('.JPG')
 +        filepath0 = self.chooser.get_filename()
 +        return filepath0
  
