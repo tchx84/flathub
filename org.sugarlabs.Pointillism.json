@@ -225,9 +225,9 @@
                 }
             ],
             "post-install": [
-                "sugarapp-gen-mimetypes activity/activity.info mimetypes",
                 "sugarapp-gen-appdata activity/activity.info appdata",
                 "install -D appdata /app/share/metainfo/org.sugarlabs.Pointillism.appdata.xml",
+		"sugarapp-gen-desktop activity/activity.info desktop",
                 "install -D desktop /app/share/applications/org.sugarlabs.Pointillism.desktop",
                 "install -D activity/activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Pointillism.svg"
             ]
