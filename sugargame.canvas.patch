@@ -1,0 +1,18 @@
+diff --git a/sugargame/canvas.py b/sugargame/canvas.py
+index 90856ca..a506fdf 100755
+--- a/sugargame/canvas.py
++++ b/sugargame/canvas.py
+@@ -42,8 +42,11 @@ class PygameCanvas(Gtk.EventBox):
+         widget.props.window.set_cursor(None)
+ 
+         # Confine the Pygame surface to the canvas size
+-        r = self.get_allocation()
+-        self._screen = pygame.display.set_mode((r.width, r.height),
++        from sugarapp.helpers import PrimaryMonitor
++
++        self.width = PrimaryMonitor.width()
++        self.height = PrimaryMonitor.height()  
++        self._screen = pygame.display.set_mode((self.width, self.height),
+                                                pygame.RESIZABLE)
+ 
+         # Hook certain Pygame functions with GTK equivalents.

@@ -1,0 +1,22 @@
+diff --git a/activity/activity.info b/activity/activity.info
+index 565c78a..ca294cf 100644
+--- a/activity/activity.info
++++ b/activity/activity.info
+@@ -1,11 +1,16 @@
+ [Activity]
+ name = Pointillism
+ activity_version = 9
+-bundle_id = org.laptop.community.Pointillism
++release_date = 2019-12-27
++metadata_license = CC0-1.0
++bundle_id = org.sugarlabs.Pointillism
+ exec = sugar-activity3 activity.Activity
+ show_launcher = yes
+ icon = activity
+ license = GPLv3+
+ summary = Create a pointillist image from the camera
++description = An incarnation of the pointillism activity live from your camera or a file.
+ repository = https://github.com/sugarlabs/pointillism.git
+ tags = Art
++update_contact = srevin03@gmail.com
++developer_name = Sugar Labs Community
