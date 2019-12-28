@@ -59,7 +59,7 @@ index b28d8b3..04b78e5 100644
      def __init__(self):
          Gtk.DrawingArea.__init__(self)
 diff --git a/typingturtle.py b/typingturtle.py
-index d37300a..1daa336 100755
+index d37300a..df0702e 100755
 --- a/typingturtle.py
 +++ b/typingturtle.py
 @@ -16,7 +16,7 @@
@@ -80,7 +80,7 @@ index d37300a..1daa336 100755
  from sugar3.graphics import *
  from sugar3.graphics import toolbutton
  from sugar3 import profile
-@@ -42,14 +42,18 @@ from sugar3.graphics.toolbarbox import ToolbarBox
+@@ -42,14 +42,17 @@ from sugar3.graphics.toolbarbox import ToolbarBox
  from sugar3.activity.widgets import StopButton
  from sugar3.activity.widgets import ActivityToolbarButton
  
@@ -93,15 +93,13 @@ index d37300a..1daa336 100755
  
  # Change to bundle directory.
 -bundle_path = sugar3.activity.activity.get_bundle_path() 
--os.chdir(bundle_path)
-+# bundle_path = sugar3.activity.activity.get_bundle_path() 
-+# os.chdir(bundle_path)
-+sys.path.append('.')
-+sys.path.append('../.')
++bundle_path = os.environ['SUGAR_BUNDLE_PATH'] 
+ os.chdir(bundle_path)
++sys.path.append(bundle_path)
  
  # Set correct DPI for Rsvg and Screen
  gi.require_version('PangoCairo', '1.0')
-@@ -78,9 +82,9 @@ import mainscreen, editlessonlistscreen
+@@ -78,9 +81,9 @@ import mainscreen, editlessonlistscreen
  # 
  # It owns the main application window, and all the various toolbars and options.
  # Activity Screens are stored in a stack, with the currently active screen on top.
@@ -113,7 +111,7 @@ index d37300a..1daa336 100755
          self.set_title(_("Typing Turtle"))
          self.max_participants = 1
          
-@@ -206,4 +210,3 @@ class TypingTurtle(sugar3.activity.activity.Activity):
+@@ -206,4 +209,3 @@ class TypingTurtle(sugar3.activity.activity.Activity):
              fd.write(text)
          finally:
              fd.close()
