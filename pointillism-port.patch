@@ -1,5 +1,5 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..22b03fc 100755
+index d91ea44..418682f 100755
 --- a/activity.py
 +++ b/activity.py
 @@ -1,4 +1,4 @@
@@ -116,12 +116,12 @@ index d91ea44..22b03fc 100755
 -                del self.chooser
 -                return self.file_path_temp
 +        self.chooser = DesktopOpenChooser(self)
-+        self.chooser.add_filter('.png')
-+        self.chooser.add_filter('.PNG')
-+        self.chooser.add_filter('.jpg')
-+        self.chooser.add_filter('.JPEG')
-+        self.chooser.add_filter('.jpeg')
-+        self.chooser.add_filter('.JPG')
++        self.chooser.add_filter('.png', 'Portable Network Graphics')
++        self.chooser.add_filter('.PNG', 'Portable Network Graphics')
++        self.chooser.add_filter('.jpg', 'JPG Images')
++        self.chooser.add_filter('.JPEG', 'JPG Images')
++        self.chooser.add_filter('.jpeg', 'JPG Images')
++        self.chooser.add_filter('.JPG', 'JPG Images')
 +        filepath0 = self.chooser.get_filename()
 +        return filepath0
  
