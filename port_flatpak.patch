@@ -19,29 +19,63 @@ index 9a7cc05..e620133 100644
  repository = https://github.com/sugarlabs/typing-turtle-activity
  tags = Language;System;Game
  url = https://help.sugarlabs.org/en/typing_turtle.html
+diff --git a/balloongame.py b/balloongame.py
+index 746b602..4c1558b 100644
+--- a/balloongame.py
++++ b/balloongame.py
+@@ -245,7 +245,7 @@ class BalloonGame(Gtk.VBox):
+     
+         cr.set_source_rgb(0, 0, 0)
+         pango_layout = PangoCairo.create_layout(cr)
+-        fd = Pango.FontDescription('Times')
++        fd = Pango.FontDescription('Monospace')
+         fd.set_size(12 * Pango.SCALE)
+         pango_layout.set_font_description(fd)
+         pango_layout.set_text(report, len(report))
+@@ -354,7 +354,7 @@ class BalloonGame(Gtk.VBox):
+ 
+     def queue_draw_score(self):
+         layout = self.area.create_pango_layout(_('SCORE: %d') % self.score)
+-        layout.set_font_description(Pango.FontDescription('Times 14'))
++        layout.set_font_description(Pango.FontDescription('Monospace 14'))
+         size = layout.get_size()
+         x = self.bounds.width-20-size[0]/Pango.SCALE
+         y = 20
+@@ -363,7 +363,7 @@ class BalloonGame(Gtk.VBox):
+     def draw_score(self, cr):
+         cr.set_source_rgb(0, 0, 0)
+         pango_layout = PangoCairo.create_layout(cr)
+-        fd = Pango.FontDescription('Times')
++        fd = Pango.FontDescription('Monospace')
+         fd.set_size(14 * Pango.SCALE)
+         pango_layout.set_font_description(fd)
+         text = _('SCORE: %d') % self.score
+@@ -380,7 +380,7 @@ class BalloonGame(Gtk.VBox):
+         # Draw instructions.
+         cr.set_source_rgb(0, 0, 0)
+         pango_layout = PangoCairo.create_layout(cr)
+-        pango_layout.set_font_description(Pango.FontDescription('Times 14'))
++        pango_layout.set_font_description(Pango.FontDescription('Monospace 14'))
+         text = _('Type the words to pop the balloons!')
+         pango_layout.set_text(text, len(text))
+         size = pango_layout.get_size()
 diff --git a/keyboard.py b/keyboard.py
-index 48bdbfc..dd46fc1 100644
+index 48bdbfc..82eb7ee 100644
 --- a/keyboard.py
 +++ b/keyboard.py
-@@ -106,14 +106,14 @@ def _is_olpcm_model():
+@@ -106,14 +106,7 @@ def _is_olpcm_model():
      keyboard, and 'olpc' for membrane keyboard.
  
      """
 -    code = None
 -    p = subprocess.Popen(["setxkbmap", "-query"], stdout=subprocess.PIPE)
 -    out, err = p.communicate()
-+    pass
-+
-+
-     
+-    
 -    for line in out.decode('utf-8').splitlines():
 -        if line.startswith('model:'):
 -            code = line.split()[1]
 -    return code == 'olpcm'
-+
-+
-+
-+
++    pass
  
  def get_layout():
      if _is_olpcm_model():
