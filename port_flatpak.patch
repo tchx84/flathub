@@ -1,0 +1,112 @@
+diff --git a/activity/activity.info b/activity/activity.info
+index 9a7cc05..60394df 100644
+--- a/activity/activity.info
++++ b/activity/activity.info
+@@ -2,7 +2,7 @@
+ name = Typing Turtle
+ activity_version = 31
+ license = GPLv3+
+-bundle_id = org.laptop.community.TypingTurtle
++bundle_id = org.sugarlabs.TypingTurtle
+ icon = Activity-typingturtle
+ exec = sugar-activity3 typingturtle.TypingTurtle
+ summary = Need some help typing? Here you will learn the best way to hold your hands in order for you to become a faster typist!
+diff --git a/keyboard.py b/keyboard.py
+index 48bdbfc..dd46fc1 100644
+--- a/keyboard.py
++++ b/keyboard.py
+@@ -106,14 +106,14 @@ def _is_olpcm_model():
+     keyboard, and 'olpc' for membrane keyboard.
+ 
+     """
+-    code = None
+-    p = subprocess.Popen(["setxkbmap", "-query"], stdout=subprocess.PIPE)
+-    out, err = p.communicate()
++    pass
++
++
+     
+-    for line in out.decode('utf-8').splitlines():
+-        if line.startswith('model:'):
+-            code = line.split()[1]
+-    return code == 'olpcm'
++
++
++
++
+ 
+ def get_layout():
+     if _is_olpcm_model():
+diff --git a/titlescene.py b/titlescene.py
+index b28d8b3..04b78e5 100644
+--- a/titlescene.py
++++ b/titlescene.py
+@@ -34,7 +34,7 @@ class TitleScene(Gtk.DrawingArea):
+     TITLE_OFFSET = (20, 50)
+ 
+     # Font used to display the title.
+-    TITLE_FONT = 'Times 45'
++    TITLE_FONT = 'Monospace 45'
+ 
+     def __init__(self):
+         Gtk.DrawingArea.__init__(self)
+diff --git a/typingturtle.py b/typingturtle.py
+index d37300a..1daa336 100755
+--- a/typingturtle.py
++++ b/typingturtle.py
+@@ -16,7 +16,7 @@
+ """Typing Turtle - Interactive typing tutor for Sugar."""
+ 
+ # Import standard Python modules.
+-import logging, os, math, time, copy, locale, datetime, random, re
++import logging, os, math, time, copy, locale, datetime, random, re, sys
+ from gettext import gettext as _
+ import json
+ 
+@@ -33,7 +33,7 @@ gi.require_version('Gtk', '3.0')
+ from gi.repository import Gtk
+ 
+ # Import Sugar UI modules.
+-import sugar3.activity.activity
++import sugar3
+ from sugar3.graphics import *
+ from sugar3.graphics import toolbutton
+ from sugar3 import profile
+@@ -42,14 +42,18 @@ from sugar3.graphics.toolbarbox import ToolbarBox
+ from sugar3.activity.widgets import StopButton
+ from sugar3.activity.widgets import ActivityToolbarButton
+ 
++from sugarapp.widgets import SugarCompatibleActivity
++
+ # Initialize logging.
+ log = logging.getLogger('Typing Turtle')
+ log.setLevel(logging.DEBUG)
+ logging.basicConfig()
+ 
+ # Change to bundle directory.
+-bundle_path = sugar3.activity.activity.get_bundle_path() 
+-os.chdir(bundle_path)
++# bundle_path = sugar3.activity.activity.get_bundle_path() 
++# os.chdir(bundle_path)
++sys.path.append('.')
++sys.path.append('../.')
+ 
+ # Set correct DPI for Rsvg and Screen
+ gi.require_version('PangoCairo', '1.0')
+@@ -78,9 +82,9 @@ import mainscreen, editlessonlistscreen
+ # 
+ # It owns the main application window, and all the various toolbars and options.
+ # Activity Screens are stored in a stack, with the currently active screen on top.
+-class TypingTurtle(sugar3.activity.activity.Activity):
++class TypingTurtle(SugarCompatibleActivity):
+     def __init__ (self, handle):
+-        sugar3.activity.activity.Activity.__init__(self, handle)
++        SugarCompatibleActivity.__init__(self, handle)
+         self.set_title(_("Typing Turtle"))
+         self.max_participants = 1
+         
+@@ -206,4 +210,3 @@ class TypingTurtle(sugar3.activity.activity.Activity):
+             fd.write(text)
+         finally:
+             fd.close()
+-
