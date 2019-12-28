@@ -225,7 +225,7 @@
                 "install -D appdata /app/share/metainfo/org.sugarlabs.TypingTurtle.appdata.xml",
                 "sugarapp-gen-desktop activity/activity.info desktop",
                 "install -D desktop /app/share/applications/org.sugarlabs.TypingTurtle.desktop",
-                "install -D activity/activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.TypingTurtle.svg"
+                "install -D activity/Activity-typingturtle.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.TypingTurtle.svg"
             ]
         }
    ] 
