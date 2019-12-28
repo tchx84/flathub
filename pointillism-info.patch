@@ -17,6 +17,6 @@ index 565c78a..ca294cf 100644
  summary = Create a pointillist image from the camera
 +description = Creates a live pointillist image from your camera or creates beautiful dot artwork from images" 
  repository = https://github.com/sugarlabs/pointillism.git
- tags = Art
+ tags = Graphics; Art
 +update_contact = tch@sugarlabs.org
 +developer_name = Sugar Labs Community
