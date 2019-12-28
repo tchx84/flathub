@@ -217,7 +217,7 @@
                 {
                     "type": "patch",
                     "path": "port_flatpak.patch"
-                },
+                }
 
             ],
             "post-install": [
