@@ -15,8 +15,10 @@ index 565c78a..ca294cf 100644
  icon = activity
  license = GPLv3+
  summary = Create a pointillist image from the camera
-+description = Creates a live pointillist image from your camera or creates beautiful dot artwork from images" 
++description = Creates a live pointillist image from your camera or creates beautiful dot artwork from images 
  repository = https://github.com/sugarlabs/pointillism.git
  tags = Graphics; Art
 +update_contact = tch@sugarlabs.org
 +developer_name = Sugar Labs Community
++url = https://github.com/sugarlabs/pointillism-activity/blob/master/README.md
++screenshots = https://user-images.githubusercontent.com/48695438/71541234-c19e4700-2966-11ea-8bbd-c42da59293c6.png
