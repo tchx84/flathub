@@ -73,7 +73,7 @@ index d91ea44..c4edf8b 100755
 +        self.actividad.running = False
 +        self.load_image_loop = False
 +        pygame.quit()
-+        sys.exit(0)
++        return True
 +    
      def save_image(self, image):
 -        journalobj = datastore.create()
