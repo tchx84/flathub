@@ -252,7 +252,7 @@
                 },
                 {
                     "type": "patch",
-                    "path": "port_flatpak.patch"
+                    "path": "typingturtle-port.patch"
                 }
 
             ],
