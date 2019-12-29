@@ -203,42 +203,6 @@
             ]
         },
 	{
-	    "name":"myspell",
-	    "buildsystem": "simple",
-	    "build-commands" : [
-            "mkdir /app/share/myspell",
-            "cp *.dic /app/share/myspell/."
-	    ],
-	    "sources" : [
-            {
-                "type": "file",
-                "url" : "https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_AU.dic",
-                "sha256": "f8094a6bd24b600518704062e6fd96682cdcb3220d74eff3dd04b99b2ebbb304"
-            },
-            {
-                "type": "file",
-                "url" : "https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_GB.dic",
-                "sha256" : "acc71ce2fd333b0e733923d7426a5ab2edad3745ee419c38f36b7b9816442b08"
-            },
-            {
-                "type": "file",
-                "url" : "https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_US.dic",
-                "sha256" : "e2aec1aff3e2b840c59e2a4f49f7eb9388b6078c681d960153fc72ce183086cc"
-                
-            },
-            {
-                "type": "file",
-                "url" : "https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_ZA.dic",
-                "sha256" : "5928244f918bfcbea2794fac365c0f29de102bd05494115da8301d48ba660571"
-            },
-            {
-                "type": "file",
-                "url" : "https://cgit.freedesktop.org/libreoffice/dictionaries/plain/en/en_CA.dic",
-                "sha256" : "55677b9facf26a8b7b9d0c1099fdf7105c7ed54f8ca9fb85d285c484a996cef0"
-            }
-	    ]
-    },
-	{
             "name": "typingturtle",
             "buildsystem" : "simple",
             "build-commands": [
@@ -257,6 +221,8 @@
 
             ],
             "post-install": [
+		"mkdir /app/share/myspell",
+		"cp lessons/*.dic /app/share/myspell/.",
                 "sugarapp-gen-appdata activity/activity.info appdata",
                 "install -D appdata /app/share/metainfo/org.sugarlabs.TypingTurtle.appdata.xml",
                 "sugarapp-gen-desktop activity/activity.info desktop",
