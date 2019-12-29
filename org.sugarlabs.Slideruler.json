@@ -229,7 +229,7 @@
             ],
             "post-install": [
                 "sugarapp-gen-appdata activity/activity.info appdata",
-                "sugarapp-gen-desktop activity/activity.info desktop --mimetypes mimetypes",
+                "sugarapp-gen-desktop activity/activity.info desktop",
                 "install -D appdata /app/share/metainfo/org.sugarlabs.Slideruler.appdata.xml",
                 "install -D desktop /app/share/applications/org.sugarlabs.Slideruler.desktop",
                 "install -D activity/activity-sliderule.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Slideruler.svg"
