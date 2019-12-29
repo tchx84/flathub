@@ -1,13 +1,14 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index 565c78a..ad26f9b 100644
+index 565c78a..5eb1693 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
 @@ -1,11 +1,18 @@
  [Activity]
  name = Pointillism
- activity_version = 9
+-activity_version = 9
 -bundle_id = org.laptop.community.Pointillism
-+release_date = 2019-12-27
++activity_version = 9.1
++release_date = 2019-12-22
 +metadata_license = CC0-1.0
 +bundle_id = org.sugarlabs.Pointillism
  exec = sugar-activity3 activity.Activity
