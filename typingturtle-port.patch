@@ -89,7 +89,7 @@ index 48bdbfc..82eb7ee 100644
 -        if line.startswith('model:'):
 -            code = line.split()[1]
 -    return code == 'olpcm'
-+    pass
++    return False
  
  def get_layout():
      if _is_olpcm_model():
