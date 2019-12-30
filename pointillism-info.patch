@@ -16,11 +16,11 @@ index 565c78a..69ea0e5 100644
  icon = activity
  license = GPLv3+
  summary = Create a pointillist image from the camera
-+description = An incarnation of the pointillism activity live from your camera or a file.
++description = Pointillism is a Sugar activity to make photos in which small dots of color are applied in patterns to form an image.
  repository = https://github.com/sugarlabs/pointillism.git
 -tags = Art
 +tags = Graphics
-+update_contact = srevin03@gmail.com
++update_contact = tch@sugarlabs.org
 +developer_name = Sugar Labs Community
 +url = https://github.com/sugarlabs/pointillism-activity#pointillism
-+screenshots = https://user-images.githubusercontent.com/48695438/71541234-c19e4700-2966-11ea-8bbd-c42da59293c6.png
++screenshots = https://user-images.githubusercontent.com/48695438/71541234-c19e4700-2966-11ea-8bbd-c42da59293c6.png 

@@ -1,13 +1,7 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..c4edf8b 100755
+index d91ea44..2d13fad 100755
 --- a/activity.py
 +++ b/activity.py
-@@ -1,4 +1,4 @@
--#! /usr/bin/env python
-+#! /usr/bin/env python3
- # -*- coding: utf-8 -*-
- #
- # Pointillism
 @@ -24,13 +24,20 @@
  
  import puntillism
@@ -44,15 +38,15 @@ index d91ea44..c4edf8b 100755
  
          self.max_participants = 1
          self.file_path_temp = None
-@@ -56,13 +63,16 @@ class Activity(activity.Activity):
+@@ -55,14 +62,15 @@ class Activity(activity.Activity):
+ 
          self.actividad = puntillism.Puntillism(self)
  
-         self.build_toolbar()
+-        self.build_toolbar()
 -
-+        
++        self.build_toolbar()       
 +        w = PrimaryMonitor.width()
 +        h = PrimaryMonitor.height() - 1 * GRID_CELL_SIZE
-+ 
          self._pygamecanvas = \
              sugargame.canvas.PygameCanvas(
                  self,
@@ -63,7 +57,7 @@ index d91ea44..c4edf8b 100755
          self.set_canvas(self._pygamecanvas)
          self._pygamecanvas.grab_focus()
  
-@@ -155,19 +165,18 @@ class Activity(activity.Activity):
+@@ -155,19 +163,18 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
@@ -73,7 +67,7 @@ index d91ea44..c4edf8b 100755
 +        self.actividad.running = False
 +        self.load_image_loop = False
 +        pygame.quit()
-+        return True
++        sys.exit(0)
 +    
      def save_image(self, image):
 -        journalobj = datastore.create()
@@ -94,12 +88,13 @@ index d91ea44..c4edf8b 100755
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -176,26 +185,13 @@ class Activity(activity.Activity):
+@@ -175,27 +182,12 @@ class Activity(activity.Activity):
+ 
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
-         self.image_id = None
+-        self.image_id = None
 -        ##
-         self.chooser = None
+-        self.chooser = None
 -        try:
 -            self.chooser = ObjectChooser(
 -                parent=self, what_filter=mime.GENERIC_TYPE_IMAGE)
@@ -127,3 +122,21 @@ index d91ea44..c4edf8b 100755
  
      def return_image_to_pygame(self):
          self.file_path_temp = self.choose_image_from_journal_cb()
+diff --git a/sugargame/canvas.py b/sugargame/canvas.py
+index 90856ca..a506fdf 100755
+--- a/sugargame/canvas.py
++++ b/sugargame/canvas.py
+@@ -42,8 +42,11 @@ class PygameCanvas(Gtk.EventBox):
+         widget.props.window.set_cursor(None)
+ 
+         # Confine the Pygame surface to the canvas size
+-        r = self.get_allocation()
+-        self._screen = pygame.display.set_mode((r.width, r.height),
++        from sugarapp.helpers import PrimaryMonitor
++
++        self.width = PrimaryMonitor.width()
++        self.height = PrimaryMonitor.height()  
++        self._screen = pygame.display.set_mode((self.width, self.height),
+                                                pygame.RESIZABLE)
+ 
+         # Hook certain Pygame functions with GTK equivalents.
