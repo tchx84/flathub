@@ -1,3 +1,28 @@
+diff --git a/activity/activity.info b/activity/activity.info
+index 9a7cc05..3445cd0 100644
+--- a/activity/activity.info
++++ b/activity/activity.info
+@@ -1,11 +1,17 @@
+ [Activity]
+ name = Typing Turtle
+-activity_version = 31
++activity_version = 30
+ license = GPLv3+
+-bundle_id = org.laptop.community.TypingTurtle
++release_date = 2012-09-26
++bundle_id = org.sugarlabs.TypingTurtle
+ icon = Activity-typingturtle
+ exec = sugar-activity3 typingturtle.TypingTurtle
+ summary = Need some help typing? Here you will learn the best way to hold your hands in order for you to become a faster typist!
++description = Typing Turtle is an interactive touch typing program. It gradually introduces the keys on the keyboard through a series of lessons, until the student has learned the entire keyboard.
++metadata_license = CC0-1.0
++update_contact = tch@sugarlabs.org
++developer_name = Sugar Labs Community
+ repository = https://github.com/sugarlabs/typing-turtle-activity
+-tags = Language;System;Game
++tags = Education
++screenshots = https://i0.wp.com/www.opensourceforu.com/wp-content/uploads/2011/08/sugar-typing.png
+ url = https://help.sugarlabs.org/en/typing_turtle.html
 diff --git a/balloongame.py b/balloongame.py
 index 746b602..4c1558b 100644
 --- a/balloongame.py
@@ -38,6 +63,58 @@ index 746b602..4c1558b 100644
          text = _('Type the words to pop the balloons!')
          pango_layout.set_text(text, len(text))
          size = pango_layout.get_size()
+diff --git a/editlessonlistscreen.py b/editlessonlistscreen.py
+index 0212d16..f458126 100644
+--- a/editlessonlistscreen.py
++++ b/editlessonlistscreen.py
+@@ -30,7 +30,7 @@ import sugar3.activity.activity
+ import sugar3.graphics.style
+ import sugar3.graphics.alert
+ import sugar3.mime
+-import sugar3.datastore.datastore
++from sugarapp.widgets import DesktopSaveChooser
+ from sugar3.graphics.objectchooser import ObjectChooser
+ 
+ # Import activity modules.
+@@ -305,28 +305,16 @@ class EditLessonListScreen(Gtk.VBox):
+                 fd.close()
+     
+     def export_clicked_cb(self, btn):
+-        # Create the new journal entry
+-        fileObject = sugar3.datastore.datastore.create()
+-
+-        meta = self.activity.metadata
+-        fileObject.metadata['title'] = meta['title'] + _(' (Exported Lessons)')
+-        fileObject.metadata['title_set_by_user'] = meta['title_set_by_user']
+-        fileObject.metadata['mime_type'] = 'text/x-typing-turtle-lessons'
+-        fileObject.metadata['icon-color'] = meta['icon-color']
+-        fileObject.file_path = os.path.join(self.activity.get_activity_root(), 'instance', '%i' % time.time())
+-        
+-        fd = open(fileObject.file_path, 'w')
+-        
+-        try:
+-            data = { 'lessons': self.lessons }
+-            fd.write(json.dumps(data))
+-            
+-        finally:
+-            fd.close()
+-        
+-        sugar3.datastore.datastore.write(fileObject, transfer_ownership=True)
+-        fileObject.destroy()
+-        del fileObject
++        chooser = DesktopSaveChooser(self, filename='untitled.lesson')
++        filename = chooser.get_filename()
++        if filename:
++            fd = open(filename, 'w')
++            try:
++                data = { 'lessons': self.lessons }
++                fd.write(json.dumps(data))
++                
++            finally:
++                fd.close()
+ 
+     def set_default_clicked_cb(self, btn):
+         code = locale.getdefaultlocale()[0] or 'en_US'
 diff --git a/editlessonscreen.py b/editlessonscreen.py
 index 8d7e8ec..5c73d5a 100644
 --- a/editlessonscreen.py
@@ -67,7 +144,7 @@ index 48bdbfc..82eb7ee 100644
 -        if line.startswith('model:'):
 -            code = line.split()[1]
 -    return code == 'olpcm'
-+    return False
++    pass
  
  def get_layout():
      if _is_olpcm_model():
