@@ -225,6 +225,10 @@
                 {
                     "type": "patch",
                     "path": "slideruler-port.patch"
+                },
+                {
+                    "type": "patch",
+                    "path": "hide-copy-paste.patch"
                 }
             ],
             "post-install": [
