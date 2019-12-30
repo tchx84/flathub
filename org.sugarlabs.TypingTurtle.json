@@ -197,7 +197,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/tchx84/sugarapp.git",
-                    "tag": "v1.10",
+                    "tag": "v1.11",
                     "commit": "54b0efdc0bbef60d48685aa2a1559a3fb8f2ddf5"
                 }
             ]
@@ -217,8 +217,11 @@
                 {
                     "type": "patch",
                     "path": "typingturtle-port.patch"
-                }
-
+                },
+		{
+		   "type": "patch",
+		   "path": "typingturtle-info.patch" 
+		}
             ],
             "post-install": [
 		"mkdir /app/share/myspell",
