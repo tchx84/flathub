@@ -1,13 +1,15 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index 9a7cc05..0b9f93d 100644
+index 9a7cc05..3445cd0 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
-@@ -2,10 +2,15 @@
+@@ -1,11 +1,17 @@
+ [Activity]
  name = Typing Turtle
- activity_version = 31
+-activity_version = 31
++activity_version = 30
  license = GPLv3+
 -bundle_id = org.laptop.community.TypingTurtle
-+release_date = 2019-12-28
++release_date = 2012-09-26
 +bundle_id = org.sugarlabs.TypingTurtle
  icon = Activity-typingturtle
  exec = sugar-activity3 typingturtle.TypingTurtle
@@ -19,4 +21,5 @@ index 9a7cc05..0b9f93d 100644
  repository = https://github.com/sugarlabs/typing-turtle-activity
 -tags = Language;System;Game
 +tags = Education
++screenshots = https://i0.wp.com/www.opensourceforu.com/wp-content/uploads/2011/08/sugar-typing.png
  url = https://help.sugarlabs.org/en/typing_turtle.html
