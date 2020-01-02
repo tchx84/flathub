@@ -1,8 +1,8 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..23b2c53 100755
+index d91ea44..75d69de 100755
 --- a/activity.py
 +++ b/activity.py
-@@ -24,13 +24,17 @@
+@@ -24,14 +24,16 @@
  
  import puntillism
  from gettext import gettext as _
@@ -13,16 +13,16 @@ index d91ea44..23b2c53 100755
  from sugar3.activity.widgets import ActivityToolbarButton
  from sugar3.graphics.toolbarbox import ToolbarBox
 -from sugar3.activity import activity
+-from sugar3 import mime
 +import shutil
 +import sys
 +from sugarapp.widgets import SugarCompatibleActivity
 +from sugarapp.widgets import DesktopSaveChooser
 +from sugarapp.widgets import DesktopOpenChooser
-+from sugar3.graphics.style import GRID_CELL_SIZE
- from sugar3 import mime
  import sugargame.canvas
  import sugargame
-@@ -43,10 +47,10 @@ gi.require_version('Gdk', '3.0')
+ import pygame
+@@ -43,10 +45,10 @@ gi.require_version('Gdk', '3.0')
  gi.require_version('Gtk', '3.0')
  
  
@@ -35,7 +35,7 @@ index d91ea44..23b2c53 100755
  
          self.max_participants = 1
          self.file_path_temp = None
-@@ -56,13 +60,11 @@ class Activity(activity.Activity):
+@@ -56,13 +58,11 @@ class Activity(activity.Activity):
          self.actividad = puntillism.Puntillism(self)
  
          self.build_toolbar()
@@ -49,7 +49,7 @@ index d91ea44..23b2c53 100755
          self.set_canvas(self._pygamecanvas)
          self._pygamecanvas.grab_focus()
  
-@@ -155,19 +157,18 @@ class Activity(activity.Activity):
+@@ -155,19 +155,18 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
@@ -59,7 +59,7 @@ index d91ea44..23b2c53 100755
 +        self.actividad.running = False
 +        self.load_image_loop = False
 +        pygame.quit()
-+        sys.exit(0)
++        return True
 +    
      def save_image(self, image):
 -        journalobj = datastore.create()
@@ -80,7 +80,7 @@ index d91ea44..23b2c53 100755
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -175,27 +176,12 @@ class Activity(activity.Activity):
+@@ -175,27 +174,12 @@ class Activity(activity.Activity):
  
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
