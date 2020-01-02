@@ -222,7 +222,7 @@
                 {
                     "type": "patch",
                     "path": "pointillism-info.patch"
-                }
+                },
                 {
                     "type": "patch",
                     "path": "pointillism-monitors.patch"
