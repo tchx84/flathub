@@ -225,7 +225,7 @@
                 }
                 {
                     "type": "patch",
-                    "path": "pointillism-display.patch"
+                    "path": "pointillism-monitors.patch"
                 }
             ],
             "post-install": [
