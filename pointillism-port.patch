@@ -13,7 +13,6 @@ index d91ea44..36dd619 100755
  from sugar3.activity.widgets import ActivityToolbarButton
  from sugar3.graphics.toolbarbox import ToolbarBox
 -from sugar3.activity import activity
-+# from sugar3.activity import activity
 +import shutil
 +import sys
 +from sugarapp.widgets import SugarCompatibleActivity
