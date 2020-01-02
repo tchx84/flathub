@@ -1,0 +1,66 @@
+diff --git a/FractionBounceActivity.py b/FractionBounceActivity.py
+index 20baa05..0e73d4a 100644
+--- a/FractionBounceActivity.py
++++ b/FractionBounceActivity.py
+@@ -21,7 +21,6 @@ from gi.repository import Gtk
+ from gi.repository import Gdk
+ 
+ from sugar3 import profile
+-from sugar3.activity import activity
+ from sugar3.activity.widgets import ActivityToolbarButton
+ from sugar3.activity.widgets import StopButton
+ from sugar3.graphics.toolbarbox import ToolbarBox
+@@ -31,6 +30,8 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
+ from sugar3.graphics.alert import NotifyAlert
+ from sugar3.graphics import style
+ 
++from sugarapp.widgets import SugarCompatibleActivity
++
+ from collabwrapper import CollabWrapper
+ 
+ from gettext import gettext as _
+@@ -58,7 +59,7 @@ BGDICT = {'grass': [_('grass'), 'grass_background.png'],
+           'custom': [_('user defined'), None]}
+ 
+ 
+-class FractionBounceActivity(activity.Activity):
++class FractionBounceActivity(SugarCompatibleActivity):
+ 
+     def __init__(self, handle):
+         ''' Initiate activity. '''
+@@ -88,7 +89,7 @@ class FractionBounceActivity(activity.Activity):
+         self._toolbar_was_expanded = False
+ 
+         # Initialize the canvas
+-        self._bounce_window = Bounce(canvas, activity.get_bundle_path(), self)
++        self._bounce_window = Bounce(canvas, os.environ['SUGAR_BUNDLE_PATH'], self)
+ 
+         Gdk.Screen.get_default().connect('size-changed', self._configure_cb)
+ 
+@@ -172,7 +173,7 @@ class FractionBounceActivity(activity.Activity):
+     def close(self, **kwargs):
+         self._bounce_window.pause()
+         aplay.close()
+-        activity.Activity.close(self, **kwargs)
++        SugarCompatibleActivity.close(self, **kwargs)
+ 
+     def _configure_cb(self, event):
+         if Gdk.Screen.width() < 1024:
+@@ -425,7 +426,7 @@ class FractionBounceActivity(activity.Activity):
+             chooser(self, 'Image', self._new_ball_from_journal)
+         else:
+             self._bounce_window.ball.new_ball(os.path.join(
+-                activity.get_bundle_path(), 'images', ball + '.svg'))
++                os.environ['SUGAR_BUNDLE_PATH'], 'images', ball + '.svg'))
+             self._bounce_window.set_background(BGDICT[BALLDICT[ball][1]][1])
+         self._current_ball = ball
+ 
+@@ -437,7 +438,7 @@ class FractionBounceActivity(activity.Activity):
+         if self._current_ball == 'custom':  # TODO: Reload custom ball
+             self._current_ball = 'soccerball'
+         self._bounce_window.ball.new_ball(os.path.join(
+-            activity.get_bundle_path(), 'images', self._current_ball + '.svg'))
++            os.environ['SUGAR_BUNDLE_PATH'], 'images', self._current_ball + '.svg'))
+ 
+     def _new_ball_from_journal(self, dsobject):
+         ''' Load an image from the Journal. '''
