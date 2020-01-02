@@ -1,8 +1,8 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..36dd619 100755
+index d91ea44..23b2c53 100755
 --- a/activity.py
 +++ b/activity.py
-@@ -24,13 +24,20 @@
+@@ -24,13 +24,17 @@
  
  import puntillism
  from gettext import gettext as _
@@ -19,11 +19,10 @@ index d91ea44..36dd619 100755
 +from sugarapp.widgets import DesktopSaveChooser
 +from sugarapp.widgets import DesktopOpenChooser
 +from sugar3.graphics.style import GRID_CELL_SIZE
-+from sugarapp.helpers import PrimaryMonitor
  from sugar3 import mime
  import sugargame.canvas
  import sugargame
-@@ -43,10 +50,10 @@ gi.require_version('Gdk', '3.0')
+@@ -43,10 +47,10 @@ gi.require_version('Gdk', '3.0')
  gi.require_version('Gtk', '3.0')
  
  
@@ -36,26 +35,21 @@ index d91ea44..36dd619 100755
  
          self.max_participants = 1
          self.file_path_temp = None
-@@ -55,14 +62,15 @@ class Activity(activity.Activity):
- 
+@@ -56,13 +60,11 @@ class Activity(activity.Activity):
          self.actividad = puntillism.Puntillism(self)
  
--        self.build_toolbar()
+         self.build_toolbar()
 -
-+        self.build_toolbar()       
-+        w = PrimaryMonitor.width()
-+        h = PrimaryMonitor.height() - 1 * GRID_CELL_SIZE
          self._pygamecanvas = \
              sugargame.canvas.PygameCanvas(
                  self,
                  main=self.actividad.run,
                  modules=[pygame.display])
 -
-+        self._pygamecanvas.set_size_request(w, h)
          self.set_canvas(self._pygamecanvas)
          self._pygamecanvas.grab_focus()
  
-@@ -155,19 +163,17 @@ class Activity(activity.Activity):
+@@ -155,19 +157,18 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
@@ -64,7 +58,8 @@ index d91ea44..36dd619 100755
 +    def can_close(self):
 +        self.actividad.running = False
 +        self.load_image_loop = False
-+        return True
++        pygame.quit()
++        sys.exit(0)
 +    
      def save_image(self, image):
 -        journalobj = datastore.create()
@@ -85,7 +80,7 @@ index d91ea44..36dd619 100755
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -175,27 +181,12 @@ class Activity(activity.Activity):
+@@ -175,27 +176,12 @@ class Activity(activity.Activity):
  
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
