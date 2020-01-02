@@ -223,6 +223,10 @@
                     "type": "patch",
                     "path": "pointillism-info.patch"
                 }
+                {
+                    "type": "patch",
+                    "path": "pointillism-display.patch"
+                }
             ],
             "post-install": [
                 "sugarapp-gen-appdata activity/activity.info appdata",
