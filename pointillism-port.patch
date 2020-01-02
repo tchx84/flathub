@@ -7,7 +7,6 @@ index d91ea44..36dd619 100755
  import puntillism
  from gettext import gettext as _
 -from sugar3.datastore import datastore
-+# from sugar3.datastore import datastore
  from sugar3.graphics.objectchooser import ObjectChooser
  from sugar3.graphics.toolbutton import ToolButton
  from sugar3.activity.widgets import StopButton
