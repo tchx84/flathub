@@ -1,8 +1,8 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..c3fd1a2 100755
+index d91ea44..086ce55 100755
 --- a/activity.py
 +++ b/activity.py
-@@ -24,14 +24,16 @@
+@@ -24,14 +24,14 @@
  
  import puntillism
  from gettext import gettext as _
@@ -14,15 +14,13 @@ index d91ea44..c3fd1a2 100755
  from sugar3.graphics.toolbarbox import ToolbarBox
 -from sugar3.activity import activity
 -from sugar3 import mime
-+import shutil
-+import sys
 +from sugarapp.widgets import SugarCompatibleActivity
 +from sugarapp.widgets import DesktopSaveChooser
 +from sugarapp.widgets import DesktopOpenChooser
  import sugargame.canvas
  import sugargame
  import pygame
-@@ -43,10 +45,10 @@ gi.require_version('Gdk', '3.0')
+@@ -43,10 +43,10 @@ gi.require_version('Gdk', '3.0')
  gi.require_version('Gtk', '3.0')
  
  
@@ -35,7 +33,7 @@ index d91ea44..c3fd1a2 100755
  
          self.max_participants = 1
          self.file_path_temp = None
-@@ -56,13 +58,11 @@ class Activity(activity.Activity):
+@@ -56,13 +56,11 @@ class Activity(activity.Activity):
          self.actividad = puntillism.Puntillism(self)
  
          self.build_toolbar()
@@ -49,7 +47,7 @@ index d91ea44..c3fd1a2 100755
          self.set_canvas(self._pygamecanvas)
          self._pygamecanvas.grab_focus()
  
-@@ -155,19 +155,17 @@ class Activity(activity.Activity):
+@@ -155,19 +153,17 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
@@ -79,7 +77,7 @@ index d91ea44..c3fd1a2 100755
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -175,27 +173,12 @@ class Activity(activity.Activity):
+@@ -175,27 +171,12 @@ class Activity(activity.Activity):
  
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
