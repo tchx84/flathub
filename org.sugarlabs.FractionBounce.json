@@ -224,8 +224,6 @@
                 }
             ],
             "post-install": [
-                "mkdir /app/share/myspell",
-                "cp lessons/*.dic /app/share/myspell/.",
                 "sugarapp-gen-appdata activity/activity.info appdata",
                 "install -D appdata /app/share/metainfo/org.sugarlabs.FractionBounce.appdata.xml",
                 "sugarapp-gen-desktop activity/activity.info desktop",
