@@ -1,5 +1,5 @@
 diff --git a/activity.py b/activity.py
-index 75d69de..e84a177 100755
+index c3fd1a2..8c7e4c3 100755
 --- a/activity.py
 +++ b/activity.py
 @@ -34,6 +34,8 @@ import sys

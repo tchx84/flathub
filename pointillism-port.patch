@@ -1,5 +1,5 @@
 diff --git a/activity.py b/activity.py
-index d91ea44..75d69de 100755
+index d91ea44..c3fd1a2 100755
 --- a/activity.py
 +++ b/activity.py
 @@ -24,14 +24,16 @@
@@ -49,7 +49,7 @@ index d91ea44..75d69de 100755
          self.set_canvas(self._pygamecanvas)
          self._pygamecanvas.grab_focus()
  
-@@ -155,19 +155,18 @@ class Activity(activity.Activity):
+@@ -155,19 +155,17 @@ class Activity(activity.Activity):
      def _savebutton_cb(self, button):
          pygame.event.post(pygame.event.Event(
              pygame.USEREVENT, action='savebutton'))
@@ -58,7 +58,6 @@ index d91ea44..75d69de 100755
 +    def can_close(self):
 +        self.actividad.running = False
 +        self.load_image_loop = False
-+        pygame.quit()
 +        return True
 +    
      def save_image(self, image):
@@ -80,7 +79,7 @@ index d91ea44..75d69de 100755
  
      def open_image(self, button):
          pygame.event.post(pygame.event.Event(
-@@ -175,27 +174,12 @@ class Activity(activity.Activity):
+@@ -175,27 +173,12 @@ class Activity(activity.Activity):
  
      def choose_image_from_journal_cb(self):
          ''' Create a chooser for image objects '''
