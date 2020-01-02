@@ -1,0 +1,28 @@
+diff --git a/activity.py b/activity.py
+index c3fd1a2..8c7e4c3 100755
+--- a/activity.py
++++ b/activity.py
+@@ -34,6 +34,8 @@ import sys
+ from sugarapp.widgets import SugarCompatibleActivity
+ from sugarapp.widgets import DesktopSaveChooser
+ from sugarapp.widgets import DesktopOpenChooser
++from sugarapp.helpers import PrimaryMonitor
++from sugar3.graphics.style import GRID_CELL_SIZE
+ import sugargame.canvas
+ import sugargame
+ import pygame
+@@ -58,11 +60,14 @@ class Activity(SugarCompatibleActivity):
+         self.actividad = puntillism.Puntillism(self)
+ 
+         self.build_toolbar()
++        w = PrimaryMonitor.width()
++        h = PrimaryMonitor.height() - 1 * GRID_CELL_SIZE
+         self._pygamecanvas = \
+             sugargame.canvas.PygameCanvas(
+                 self,
+                 main=self.actividad.run,
+                 modules=[pygame.display])
++        self._pygamecanvas.set_size_request(w, h)
+         self.set_canvas(self._pygamecanvas)
+         self._pygamecanvas.grab_focus()
+ 

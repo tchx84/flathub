@@ -1,0 +1,113 @@
+diff --git a/activity.py b/activity.py
+index d91ea44..086ce55 100755
+--- a/activity.py
++++ b/activity.py
+@@ -24,14 +24,14 @@
+ 
+ import puntillism
+ from gettext import gettext as _
+-from sugar3.datastore import datastore
+ from sugar3.graphics.objectchooser import ObjectChooser
+ from sugar3.graphics.toolbutton import ToolButton
+ from sugar3.activity.widgets import StopButton
+ from sugar3.activity.widgets import ActivityToolbarButton
+ from sugar3.graphics.toolbarbox import ToolbarBox
+-from sugar3.activity import activity
+-from sugar3 import mime
++from sugarapp.widgets import SugarCompatibleActivity
++from sugarapp.widgets import DesktopSaveChooser
++from sugarapp.widgets import DesktopOpenChooser
+ import sugargame.canvas
+ import sugargame
+ import pygame
+@@ -43,10 +43,10 @@ gi.require_version('Gdk', '3.0')
+ gi.require_version('Gtk', '3.0')
+ 
+ 
+-class Activity(activity.Activity):
++class Activity(SugarCompatibleActivity):
+ 
+     def __init__(self, handle):
+-        activity.Activity.__init__(self, handle)
++        SugarCompatibleActivity.__init__(self, handle)
+ 
+         self.max_participants = 1
+         self.file_path_temp = None
+@@ -56,13 +56,11 @@ class Activity(activity.Activity):
+         self.actividad = puntillism.Puntillism(self)
+ 
+         self.build_toolbar()
+-
+         self._pygamecanvas = \
+             sugargame.canvas.PygameCanvas(
+                 self,
+                 main=self.actividad.run,
+                 modules=[pygame.display])
+-
+         self.set_canvas(self._pygamecanvas)
+         self._pygamecanvas.grab_focus()
+ 
+@@ -155,19 +153,17 @@ class Activity(activity.Activity):
+     def _savebutton_cb(self, button):
+         pygame.event.post(pygame.event.Event(
+             pygame.USEREVENT, action='savebutton'))
+-
++    
++    def can_close(self):
++        self.actividad.running = False
++        self.load_image_loop = False
++        return True
++    
+     def save_image(self, image):
+-        journalobj = datastore.create()
+-        journalobj.metadata['title'] = _('Pointillism')
+-        journalobj.metadata['mime_type'] = 'image/jpeg'
+-
+-        file_path = os.path.join(
+-            os.environ['SUGAR_ACTIVITY_ROOT'], 'data', 'pointillism.jpg')
+-
+-        pygame.image.save(image, file_path)
+-        journalobj.set_file_path(file_path)
+-        datastore.write(journalobj)
+-        journalobj.destroy()
++        chooser = DesktopSaveChooser(self, filename='pointiliism.png')
++        filename = chooser.get_filename()
++        if filename:
++            pygame.image.save(image, filename)
+ 
+     def open_image(self, button):
+         pygame.event.post(pygame.event.Event(
+@@ -175,27 +171,12 @@ class Activity(activity.Activity):
+ 
+     def choose_image_from_journal_cb(self):
+         ''' Create a chooser for image objects '''
+-        self.image_id = None
+-        ##
+-        self.chooser = None
+-        try:
+-            self.chooser = ObjectChooser(
+-                parent=self, what_filter=mime.GENERIC_TYPE_IMAGE)
+-        except TypeError:
+-            self.chooser = ObjectChooser(
+-                None, self,
+-                Gtk.DialogFlags.MODAL | Gtk.DialogFlags.DESTROY_WITH_PARENT)
+-        if self.chooser is not None:
+-            try:
+-                result = self.chooser.run()
+-                if result == Gtk.ResponseType.ACCEPT:
+-                    dsobject = self.chooser.get_selected_object()
+-                    self.file_path_temp = str(dsobject.get_file_path())[:]
+-
+-            finally:
+-                self.chooser.destroy()
+-                del self.chooser
+-                return self.file_path_temp
++        self.chooser = DesktopOpenChooser(self)
++        self.chooser.add_filter('.png', 'Portable Network Graphics (.png)')
++        self.chooser.add_filter('.jpg', 'JPG Images (.jpg)')
++        self.chooser.add_filter('.jpeg', 'JPG Images (.jpeg)')
++        filepath0 = self.chooser.get_filename()
++        return filepath0
+ 
+     def return_image_to_pygame(self):
+         self.file_path_temp = self.choose_image_from_journal_cb()
