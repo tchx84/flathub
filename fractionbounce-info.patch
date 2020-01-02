@@ -1,8 +1,8 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index 2b1e77a..0058ac0 100644
+index 2b1e77a..7669a29 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
-@@ -1,11 +1,17 @@
+@@ -1,11 +1,18 @@
  [Activity]
  name = FractionBounce
  activity_version = 27
@@ -14,6 +14,7 @@ index 2b1e77a..0058ac0 100644
  exec = sugar-activity3 FractionBounceActivity.FractionBounceActivity
  icon = activity-fractionbounce
  show_launcher = yes
++tags = Education
  summary = interactive fraction game
  category = maths game
  repository = https://github.com/sugarlabs/fractionbounce
