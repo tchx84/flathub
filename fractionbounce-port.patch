@@ -1,5 +1,5 @@
 diff --git a/FractionBounceActivity.py b/FractionBounceActivity.py
-index 20baa05..0e73d4a 100644
+index 20baa05..d86898d 100644
 --- a/FractionBounceActivity.py
 +++ b/FractionBounceActivity.py
 @@ -21,7 +21,6 @@ from gi.repository import Gtk
@@ -55,7 +55,7 @@ index 20baa05..0e73d4a 100644
              self._bounce_window.set_background(BGDICT[BALLDICT[ball][1]][1])
          self._current_ball = ball
  
-@@ -437,7 +438,7 @@ class FractionBounceActivity(activity.Activity):
+@@ -437,13 +438,13 @@ class FractionBounceActivity(activity.Activity):
          if self._current_ball == 'custom':  # TODO: Reload custom ball
              self._current_ball = 'soccerball'
          self._bounce_window.ball.new_ball(os.path.join(
@@ -64,3 +64,117 @@ index 20baa05..0e73d4a 100644
  
      def _new_ball_from_journal(self, dsobject):
          ''' Load an image from the Journal. '''
+         self._bounce_window.ball.new_ball_from_image(
+-            dsobject.file_path,
+-            os.path.join(activity.get_activity_root(), 'tmp', 'custom.png'))
++            dsobject,
++            os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'custom.png'))
+ 
+     def _new_background_from_journal(self, dsobject):
+         ''' Load an image from the Journal. '''
+diff --git a/ball.py b/ball.py
+index 3f96159..4de5bd8 100644
+--- a/ball.py
++++ b/ball.py
+@@ -128,22 +128,22 @@ class Ball():
+         if filename == '':
+             _logger.debug('Image file not found.')
+             return
+-        try:
+-            pixbuf = GdkPixbuf.Pixbuf.new_from_file(filename)
+-            if pixbuf.get_width() > pixbuf.get_height():
+-                size = pixbuf.get_height()
+-                x = int((pixbuf.get_width() - size) // 2)
+-            else:
+-                size = pixbuf.get_width()
+-                x = int((pixbuf.get_height() - size) // 2)
+-            crop = GdkPixbuf.Pixbuf.new(0, True, 8, size, size)
+-            pixbuf.copy_area(x, 0, size, size, crop, 0, 0)
+-            scale = crop.scale_simple(85, 85, GdkPixbuf.InterpType.BILINEAR)
+-            scale.savev(save_path, 'png', [], [])
+-            self.ball.set_shape(
+-                svg_str_to_pixbuf(generate_ball_svg(save_path)))
+-        except Exception as e:
+-            _logger.error('Could not load image from %s: %s' % (filename, e))
++        #try:
++        pixbuf = GdkPixbuf.Pixbuf.new_from_file(filename)
++        if pixbuf.get_width() > pixbuf.get_height():
++            size = pixbuf.get_height()
++            x = int((pixbuf.get_width() - size) // 2)
++        else:
++            size = pixbuf.get_width()
++            x = int((pixbuf.get_height() - size) // 2)
++        crop = GdkPixbuf.Pixbuf.new(0, True, 8, size, size)
++        pixbuf.copy_area(x, 0, size, size, crop, 0, 0)
++        scale = crop.scale_simple(85, 85, GdkPixbuf.InterpType.BILINEAR)
++        scale.savev(save_path, 'png', [], [])
++        self.ball.set_shape(
++            svg_str_to_pixbuf(generate_ball_svg(save_path)))
++        #except Exception as e:
++        #    _logger.error('Could not load image from %s: %s' % (filename, e))
+ 
+     def new_ball_from_fraction(self, fraction):
+         ''' Create a ball with a section of size fraction. '''
+diff --git a/bounce.py b/bounce.py
+index 2ffc8fb..e7a42e9 100644
+--- a/bounce.py
++++ b/bounce.py
+@@ -192,7 +192,7 @@ class Bounce():
+         width, height = self._calc_background_size()
+         for bg in list(self._backgrounds.keys()):
+             if bg == 'custom':
+-                path = self._custom_dsobject.file_path
++                path = self._custom_dsobject
+                 pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
+                     path, width, height)
+             else:
+@@ -278,7 +278,7 @@ class Bounce():
+ 
+     def new_background_from_image(self, path, dsobject=None):
+         if path is None:
+-            path = dsobject.file_path
++            path = dsobject
+         width, height = self._calc_background_size()
+         pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_size(
+             path, width, height)
+diff --git a/utils.py b/utils.py
+index 2ee22ea..152e13f 100644
+--- a/utils.py
++++ b/utils.py
+@@ -15,29 +15,14 @@
+ 
+ from gi.repository import Gtk
+ 
+-from sugar3.graphics.objectchooser import ObjectChooser
+-try:
+-    from sugar3.graphics.objectchooser import FILTER_TYPE_GENERIC_MIME
+-except:
+-    FILTER_TYPE_GENERIC_MIME = 'generic_mime'
+-
++from sugarapp.widgets import DesktopOpenChooser
+ 
+ def chooser(parent_window, filter, action):
+     """ Choose an object from the datastore and take some action """
+     chooser = None
+-    try:
+-        chooser = ObjectChooser(parent=parent_window, what_filter=filter,
+-                                filter_type=FILTER_TYPE_GENERIC_MIME,
+-                                show_preview=True)
+-    except:
+-        chooser = ObjectChooser(parent=parent_window, what_filter=filter)
+-    if chooser is not None:
+-        try:
+-            result = chooser.run()
+-            if result == Gtk.ResponseType.ACCEPT:
+-                dsobject = chooser.get_selected_object()
+-                action(dsobject)
+-                dsobject.destroy()
+-        finally:
+-            chooser.destroy()
+-            del chooser
++    chooser = DesktopOpenChooser(parent_window)
++    chooser.add_filter('.png', 'Portable Network Graphics (.png)')
++    chooser.add_filter('.jpg', 'JPG Images (.jpg)')
++    chooser.add_filter('.jpeg', 'JPG Images (.jpeg)')
++    filepath = chooser.get_filename()
++    action(filepath)
