@@ -1,8 +1,16 @@
 diff --git a/finance.py b/finance.py
-index 24022e0..11974ce 100644
+index 24022e0..5b9cc2f 100644
 --- a/finance.py
 +++ b/finance.py
-@@ -42,12 +42,13 @@ from sugar3.graphics import style
+@@ -26,6 +26,7 @@ import json
+ import tempfile
+ import io
+ import dbus
++import shutil
+ 
+ import gi
+ gi.require_version('Gtk', '3.0')
+@@ -42,12 +43,13 @@ from sugar3.graphics import style
  from sugar3.activity.widgets import StopButton
  from sugar3.activity.widgets import ActivityToolbarButton
  from sugar3.activity import activity
@@ -17,7 +25,7 @@ index 24022e0..11974ce 100644
  
  # Import screen classes.
  import registerscreen
-@@ -82,9 +83,9 @@ FOREVER = 4
+@@ -82,9 +84,9 @@ FOREVER = 4
  # and options. Screens are stored in a stack, with the currently
  # active screen on top.
  
@@ -29,7 +37,7 @@ index 24022e0..11974ce 100644
          self.set_title(_("Finance"))
          self.max_participants = 1
  
-@@ -904,29 +905,14 @@ class Finance(activity.Activity):
+@@ -904,29 +906,13 @@ class Finance(activity.Activity):
              fd.close()
  
      def __save_image_cb(self, widget):
@@ -40,8 +48,9 @@ index 24022e0..11974ce 100644
 -        journal_entry.metadata['mime_type'] = 'image/png'
 -
 -        # generate the image
--        self.chart.generate_image(image_file.file, 800, 600)
--        image_file.file.close()
++        image_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.png', dir=activity.get_activity_root())
+         self.chart.generate_image(image_file.file, 800, 600)
+         image_file.file.close()
 -        journal_entry.file_path = image_file.name
 -
 -        # generate the preview
@@ -56,14 +65,38 @@ index 24022e0..11974ce 100644
 -        self._show_journal_alert(
 -            _('Chart created'), _('Open in the Journal'),
 -            journal_entry.object_id)
-+        chooser = DesktopSaveChooser(self, filename="chart.png")
++        chooser = DesktopSaveChooser(self, filename=image_file.name)
 +        filename = chooser.get_filename()
 +        if filename:
-+            image_file = open(filename, 'wb')
-+            # generate the image
-+            self.chart.generate_image(image_file, 800, 600)
-+            image_file.close()
-+    
++            shutil.copyfile(image_file.name,filename)
  
      def _show_journal_alert(self, title, msg, object_id):
          open_alert = Alert()
+@@ -1029,19 +1015,14 @@ class Finance(activity.Activity):
+         logging.debug('chart_data %s', chart_params)
+ 
+         # save to the journal
+-        data_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.json')
+-        journal_entry = datastore.create()
+-        journal_entry.metadata['title'] = title
+-        journal_entry.metadata['keep'] = '0'
+-        journal_entry.metadata['mime_type'] = 'application/x-chart-activity'
+-        journal_entry.metadata['activity'] = 'org.sugarlabs.SimpleGraph'
+-
++        
++        data_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.json',
++                                                dir=activity.get_activity_root())
+         json.dump(chart_params, data_file.file)
+         data_file.file.close()
+-        journal_entry.file_path = data_file.name
+-
++        chooser = DesktopSaveChooser(self, filename=data_file.name)
++        filename = chooser.get_filename()
++        if filename:
++            shutil.copyfile(data_file.name,filename)
+         logging.debug('Create %s data file', data_file.name)
+-        datastore.write(journal_entry)
+-        self._show_journal_alert(
+-            _('Exported data'), _('Open in the Journal'),
+-            journal_entry.object_id)
++
