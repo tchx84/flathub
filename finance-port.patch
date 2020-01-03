@@ -1,5 +1,5 @@
 diff --git a/finance.py b/finance.py
-index 24022e0..5b9cc2f 100644
+index 24022e0..a371d2f 100644
 --- a/finance.py
 +++ b/finance.py
 @@ -26,6 +26,7 @@ import json
@@ -84,7 +84,7 @@ index 24022e0..5b9cc2f 100644
 -        journal_entry.metadata['activity'] = 'org.sugarlabs.SimpleGraph'
 -
 +        
-+        data_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.json',
++        data_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json',
 +                                                dir=activity.get_activity_root())
          json.dump(chart_params, data_file.file)
          data_file.file.close()
