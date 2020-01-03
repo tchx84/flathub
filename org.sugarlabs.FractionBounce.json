@@ -219,8 +219,8 @@
                     "path": "fractionbounce-port.patch"
                 },
                 {
-                "type": "patch",
-                "path": "fractionbounce-info.patch" 
+                    "type": "patch",
+                    "path": "fractionbounce-info.patch" 
                 }
             ],
             "post-install": [
