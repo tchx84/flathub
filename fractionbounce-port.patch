@@ -1,5 +1,5 @@
 diff --git a/FractionBounceActivity.py b/FractionBounceActivity.py
-index 20baa05..d86898d 100644
+index 20baa05..676989b 100644
 --- a/FractionBounceActivity.py
 +++ b/FractionBounceActivity.py
 @@ -21,7 +21,6 @@ from gi.repository import Gtk
@@ -28,15 +28,6 @@ index 20baa05..d86898d 100644
  
      def __init__(self, handle):
          ''' Initiate activity. '''
-@@ -88,7 +89,7 @@ class FractionBounceActivity(activity.Activity):
-         self._toolbar_was_expanded = False
- 
-         # Initialize the canvas
--        self._bounce_window = Bounce(canvas, activity.get_bundle_path(), self)
-+        self._bounce_window = Bounce(canvas, os.environ['SUGAR_BUNDLE_PATH'], self)
- 
-         Gdk.Screen.get_default().connect('size-changed', self._configure_cb)
- 
 @@ -172,7 +173,7 @@ class FractionBounceActivity(activity.Activity):
      def close(self, **kwargs):
          self._bounce_window.pause()
@@ -46,29 +37,14 @@ index 20baa05..d86898d 100644
  
      def _configure_cb(self, event):
          if Gdk.Screen.width() < 1024:
-@@ -425,7 +426,7 @@ class FractionBounceActivity(activity.Activity):
-             chooser(self, 'Image', self._new_ball_from_journal)
-         else:
-             self._bounce_window.ball.new_ball(os.path.join(
--                activity.get_bundle_path(), 'images', ball + '.svg'))
-+                os.environ['SUGAR_BUNDLE_PATH'], 'images', ball + '.svg'))
-             self._bounce_window.set_background(BGDICT[BALLDICT[ball][1]][1])
-         self._current_ball = ball
- 
-@@ -437,13 +438,13 @@ class FractionBounceActivity(activity.Activity):
-         if self._current_ball == 'custom':  # TODO: Reload custom ball
-             self._current_ball = 'soccerball'
-         self._bounce_window.ball.new_ball(os.path.join(
--            activity.get_bundle_path(), 'images', self._current_ball + '.svg'))
-+            os.environ['SUGAR_BUNDLE_PATH'], 'images', self._current_ball + '.svg'))
- 
+@@ -442,8 +443,8 @@ class FractionBounceActivity(activity.Activity):
      def _new_ball_from_journal(self, dsobject):
          ''' Load an image from the Journal. '''
          self._bounce_window.ball.new_ball_from_image(
 -            dsobject.file_path,
 -            os.path.join(activity.get_activity_root(), 'tmp', 'custom.png'))
 +            dsobject,
-+            os.path.join(os.environ['SUGAR_ACTIVITY_ROOT'], 'custom.png'))
++            os.path.join(activity.get_activity_root(), 'custom.png'))
  
      def _new_background_from_journal(self, dsobject):
          ''' Load an image from the Journal. '''
