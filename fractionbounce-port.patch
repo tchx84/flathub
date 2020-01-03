@@ -1,16 +1,8 @@
 diff --git a/FractionBounceActivity.py b/FractionBounceActivity.py
-index 20baa05..676989b 100644
+index 20baa05..cebd23b 100644
 --- a/FractionBounceActivity.py
 +++ b/FractionBounceActivity.py
-@@ -21,7 +21,6 @@ from gi.repository import Gtk
- from gi.repository import Gdk
- 
- from sugar3 import profile
--from sugar3.activity import activity
- from sugar3.activity.widgets import ActivityToolbarButton
- from sugar3.activity.widgets import StopButton
- from sugar3.graphics.toolbarbox import ToolbarBox
-@@ -31,6 +30,8 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
+@@ -31,6 +31,8 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
  from sugar3.graphics.alert import NotifyAlert
  from sugar3.graphics import style
  
@@ -19,7 +11,7 @@ index 20baa05..676989b 100644
  from collabwrapper import CollabWrapper
  
  from gettext import gettext as _
-@@ -58,7 +59,7 @@ BGDICT = {'grass': [_('grass'), 'grass_background.png'],
+@@ -58,7 +60,7 @@ BGDICT = {'grass': [_('grass'), 'grass_background.png'],
            'custom': [_('user defined'), None]}
  
  
@@ -28,7 +20,7 @@ index 20baa05..676989b 100644
  
      def __init__(self, handle):
          ''' Initiate activity. '''
-@@ -172,7 +173,7 @@ class FractionBounceActivity(activity.Activity):
+@@ -172,7 +174,7 @@ class FractionBounceActivity(activity.Activity):
      def close(self, **kwargs):
          self._bounce_window.pause()
          aplay.close()
@@ -37,7 +29,7 @@ index 20baa05..676989b 100644
  
      def _configure_cb(self, event):
          if Gdk.Screen.width() < 1024:
-@@ -442,8 +443,8 @@ class FractionBounceActivity(activity.Activity):
+@@ -442,8 +444,8 @@ class FractionBounceActivity(activity.Activity):
      def _new_ball_from_journal(self, dsobject):
          ''' Load an image from the Journal. '''
          self._bounce_window.ball.new_ball_from_image(
