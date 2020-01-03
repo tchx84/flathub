@@ -1,5 +1,5 @@
 diff --git a/FractionBounceActivity.py b/FractionBounceActivity.py
-index 20baa05..cebd23b 100644
+index 20baa05..49946af 100644
 --- a/FractionBounceActivity.py
 +++ b/FractionBounceActivity.py
 @@ -31,6 +31,8 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
@@ -29,7 +29,22 @@ index 20baa05..cebd23b 100644
  
      def _configure_cb(self, event):
          if Gdk.Screen.width() < 1024:
-@@ -442,8 +444,8 @@ class FractionBounceActivity(activity.Activity):
+@@ -415,12 +417,14 @@ class FractionBounceActivity(activity.Activity):
+         return canvas
+ 
+     def _load_bg_cb(self, widget, event, bg):
++        self._bg_palette.popdown(immediate=True)
+         if bg == 'custom':
+             chooser(self, 'Image', self._new_background_from_journal)
+         else:
+             self._bounce_window.set_background(BGDICT[bg][1])
+ 
+     def _load_ball_cb(self, widget, event, ball):
++        self._ball_palette.popdown(immediate=True)
+         if ball == 'custom':
+             chooser(self, 'Image', self._new_ball_from_journal)
+         else:
+@@ -442,8 +446,8 @@ class FractionBounceActivity(activity.Activity):
      def _new_ball_from_journal(self, dsobject):
          ''' Load an image from the Journal. '''
          self._bounce_window.ball.new_ball_from_image(
