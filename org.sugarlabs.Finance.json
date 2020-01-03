@@ -220,6 +220,10 @@
                 },
                 {
                     "type": "patch",
+                    "path": "finance-monitors.patch"
+                },
+                {
+                    "type": "patch",
                     "path": "finance-info.patch" 
                 }
             ],
