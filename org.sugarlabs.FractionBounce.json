@@ -220,6 +220,10 @@
                 },
                 {
                     "type": "patch",
+                    "path": "fractionbounce-svg-fix.patch"
+                },
+                {
+                    "type": "patch",
                     "path": "fractionbounce-info.patch" 
                 }
             ],
