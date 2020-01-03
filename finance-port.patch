@@ -1,0 +1,69 @@
+diff --git a/finance.py b/finance.py
+index 24022e0..11974ce 100644
+--- a/finance.py
++++ b/finance.py
+@@ -42,12 +42,13 @@ from sugar3.graphics import style
+ from sugar3.activity.widgets import StopButton
+ from sugar3.activity.widgets import ActivityToolbarButton
+ from sugar3.activity import activity
+-from sugar3.datastore import datastore
+ from sugar3.graphics.alert import Alert
+ from sugar3.graphics.icon import Icon
+ from sugar3.graphics.palettemenu import PaletteMenuItem
+ from sugar3.graphics.palettemenu import PaletteMenuBox
+ from sugar3 import profile
++from sugarapp.widgets import SugarCompatibleActivity
++from sugarapp.widgets import DesktopSaveChooser, DesktopOpenChooser
+ 
+ # Import screen classes.
+ import registerscreen
+@@ -82,9 +83,9 @@ FOREVER = 4
+ # and options. Screens are stored in a stack, with the currently
+ # active screen on top.
+ 
+-class Finance(activity.Activity):
++class Finance(SugarCompatibleActivity):
+     def __init__(self, handle):
+-        activity.Activity.__init__(self, handle)
++        SugarCompatibleActivity.__init__(self, handle)
+         self.set_title(_("Finance"))
+         self.max_participants = 1
+ 
+@@ -904,29 +905,14 @@ class Finance(activity.Activity):
+             fd.close()
+ 
+     def __save_image_cb(self, widget):
+-        image_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.png')
+-        journal_entry = datastore.create()
+-        journal_entry.metadata['title'] = self.chart.title
+-        journal_entry.metadata['keep'] = '0'
+-        journal_entry.metadata['mime_type'] = 'image/png'
+-
+-        # generate the image
+-        self.chart.generate_image(image_file.file, 800, 600)
+-        image_file.file.close()
+-        journal_entry.file_path = image_file.name
+-
+-        # generate the preview
+-        preview_str = io.StringIO()
+-        self.chart.generate_image(preview_str, activity.PREVIEW_SIZE[0],
+-                                  activity.PREVIEW_SIZE[1])
+-        journal_entry.metadata['preview'] = dbus.ByteArray(
+-            preview_str.getvalue())
+-
+-        logging.error('Create %s image file', image_file.name)
+-        datastore.write(journal_entry)
+-        self._show_journal_alert(
+-            _('Chart created'), _('Open in the Journal'),
+-            journal_entry.object_id)
++        chooser = DesktopSaveChooser(self, filename="chart.png")
++        filename = chooser.get_filename()
++        if filename:
++            image_file = open(filename, 'wb')
++            # generate the image
++            self.chart.generate_image(image_file, 800, 600)
++            image_file.close()
++    
+ 
+     def _show_journal_alert(self, title, msg, object_id):
+         open_alert = Alert()
