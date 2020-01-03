@@ -1,5 +1,5 @@
 diff --git a/FractionBounceActivity.py b/FractionBounceActivity.py
-index 20baa05..adf2821 100644
+index 49946af..cd53e5a 100644
 --- a/FractionBounceActivity.py
 +++ b/FractionBounceActivity.py
 @@ -30,7 +30,7 @@ from sugar3.graphics.toolbutton import ToolButton
@@ -8,11 +8,11 @@ index 20baa05..adf2821 100644
  from sugar3.graphics import style
 -
 +from sugarapp.helpers import PrimaryMonitor
- from collabwrapper import CollabWrapper
+ from sugarapp.widgets import SugarCompatibleActivity
  
- from gettext import gettext as _
-@@ -175,7 +175,7 @@ class FractionBounceActivity(activity.Activity):
-         activity.Activity.close(self, **kwargs)
+ from collabwrapper import CollabWrapper
+@@ -177,7 +177,7 @@ class FractionBounceActivity(SugarCompatibleActivity):
+         SugarCompatibleActivity.close(self, **kwargs)
  
      def _configure_cb(self, event):
 -        if Gdk.Screen.width() < 1024:
@@ -20,7 +20,7 @@ index 20baa05..adf2821 100644
              self._label.set_size_request(275, -1)
              self._label.set_label('')
              self._separator.set_expand(False)
-@@ -281,7 +281,7 @@ class FractionBounceActivity(activity.Activity):
+@@ -283,7 +283,7 @@ class FractionBounceActivity(SugarCompatibleActivity):
  
          self._label = Gtk.Label(_("Click the ball to start."))
          self._label.set_line_wrap(True)
@@ -29,7 +29,7 @@ index 20baa05..adf2821 100644
              self._label.set_size_request(275, -1)
          else:
              self._label.set_size_request(500, -1)
-@@ -408,8 +408,8 @@ class FractionBounceActivity(activity.Activity):
+@@ -410,8 +410,8 @@ class FractionBounceActivity(SugarCompatibleActivity):
  
      def _setup_canvas(self):
          canvas = Gtk.DrawingArea()
@@ -41,20 +41,19 @@ index 20baa05..adf2821 100644
          canvas.show()
          return canvas
 diff --git a/bar.py b/bar.py
-index 900872f..e2e8406 100644
+index 900872f..a6515a9 100644
 --- a/bar.py
 +++ b/bar.py
-@@ -10,8 +10,7 @@
- # along with this library; if not, write to the Free Software
+@@ -11,7 +11,7 @@
  # Foundation, 51 Franklin Street, Suite 500 Boston, MA 02110-1335 USA
  
--from gi.repository import Gdk
+ from gi.repository import Gdk
 -
 +from sugarapp.helpers import PrimaryMonitor
  from sugar3.graphics import style
  
  from sprites import Sprite
-@@ -31,9 +30,9 @@ class Bar():
+@@ -31,9 +31,9 @@ class Bar():
          self._colors = colors[:]
          self.bars = {}
  
@@ -67,7 +66,7 @@ index 900872f..e2e8406 100644
  
          self._ball_size = ball_size
  
-@@ -41,9 +40,9 @@ class Bar():
+@@ -41,9 +41,9 @@ class Bar():
          self._make_wedge_mark()
  
      def resize_all(self):
@@ -81,7 +80,7 @@ index 900872f..e2e8406 100644
          for bar in list(self.bars.keys()):
              self.bars[bar].hide()
 diff --git a/bounce.py b/bounce.py
-index 2ffc8fb..cd757f6 100644
+index e7a42e9..7e7b3e5 100644
 --- a/bounce.py
 +++ b/bounce.py
 @@ -56,7 +56,7 @@ import subprocess
