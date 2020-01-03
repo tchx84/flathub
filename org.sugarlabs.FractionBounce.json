@@ -224,6 +224,10 @@
                 },
                 {
                     "type": "patch",
+                    "path": "fractionbounce-monitors.patch"
+                },
+                {
+                    "type": "patch",
                     "path": "fractionbounce-info.patch" 
                 }
             ],
