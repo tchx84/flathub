@@ -1,5 +1,5 @@
 diff --git a/finance.py b/finance.py
-index 24022e0..c422c06 100644
+index 24022e0..bcd43b0 100644
 --- a/finance.py
 +++ b/finance.py
 @@ -40,14 +40,15 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
@@ -50,7 +50,7 @@ index 24022e0..c422c06 100644
          menu_box = PaletteMenuBox()
          export_data.props.palette.set_content(menu_box)
  
-@@ -904,29 +905,12 @@ class Finance(activity.Activity):
+@@ -904,29 +905,11 @@ class Finance(activity.Activity):
              fd.close()
  
      def __save_image_cb(self, widget):
@@ -80,13 +80,12 @@ index 24022e0..c422c06 100644
 +        chooser = DesktopSaveChooser(self, filename=_("Untitled") + '.png')
 +        filename = chooser.get_filename()
 +        if filename:
-+            image_file = open(filename, 'wb')
-+            self.chart.generate_image(image_file, 800, 600)
-+            image_file.close()
++            with open(filename, 'wb') as image_file:            
++                self.chart.generate_image(image_file, 800, 600)
  
      def _show_journal_alert(self, title, msg, object_id):
          open_alert = Alert()
-@@ -1027,21 +1011,12 @@ class Finance(activity.Activity):
+@@ -1027,21 +1010,12 @@ class Finance(activity.Activity):
          chart_params['chart_data'] = data
  
          logging.debug('chart_data %s', chart_params)
