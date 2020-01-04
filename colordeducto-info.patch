@@ -1,8 +1,8 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index 9379315..53b58c9 100644
+index 9379315..7494d55 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
-@@ -1,10 +1,18 @@
+@@ -1,10 +1,19 @@
  [Activity]
  name = ColorDeducto
  exec = sugar-activity3 ColorDeductoActivity.ColorDeductoActivity
@@ -22,6 +22,7 @@ index 9379315..53b58c9 100644
 +repository = https://github.com/sugarlabs/colordeducto
 +url = https://github.com/sugarlabs/colordeducto
 +category = Game
++tags = Game
 +update_contact = tch@sugarlabs.org
 +developer_name = Sugar Labs Community
 +screenshots = 
