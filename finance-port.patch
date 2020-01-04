@@ -1,16 +1,8 @@
 diff --git a/finance.py b/finance.py
-index 24022e0..529ef2f 100644
+index 24022e0..2fe42df 100644
 --- a/finance.py
 +++ b/finance.py
-@@ -26,6 +26,7 @@ import json
- import tempfile
- import io
- import dbus
-+import shutil
- 
- import gi
- gi.require_version('Gtk', '3.0')
-@@ -40,14 +41,15 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
+@@ -40,14 +40,15 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
  from sugar3.graphics import style
  
  from sugar3.activity.widgets import StopButton
@@ -28,7 +20,7 @@ index 24022e0..529ef2f 100644
  
  # Import screen classes.
  import registerscreen
-@@ -82,9 +84,9 @@ FOREVER = 4
+@@ -82,9 +83,9 @@ FOREVER = 4
  # and options. Screens are stored in a stack, with the currently
  # active screen on top.
  
@@ -40,7 +32,7 @@ index 24022e0..529ef2f 100644
          self.set_title(_("Finance"))
          self.max_participants = 1
  
-@@ -214,7 +216,7 @@ class Finance(activity.Activity):
+@@ -214,7 +215,7 @@ class Finance(activity.Activity):
  
          self.toolbar_box = ToolbarBox()
  
@@ -49,7 +41,7 @@ index 24022e0..529ef2f 100644
          self.toolbar_box.toolbar.insert(activity_button, 0)
          activity_button.show()
  
-@@ -248,7 +250,7 @@ class Finance(activity.Activity):
+@@ -248,7 +249,7 @@ class Finance(activity.Activity):
          export_data.props.hide_tooltip_on_click = False
          export_data.palette_invoker.props.toggle_palette = True
          export_data.show()
@@ -58,7 +50,7 @@ index 24022e0..529ef2f 100644
          menu_box = PaletteMenuBox()
          export_data.props.palette.set_content(menu_box)
  
-@@ -904,29 +906,13 @@ class Finance(activity.Activity):
+@@ -904,29 +905,12 @@ class Finance(activity.Activity):
              fd.close()
  
      def __save_image_cb(self, widget):
@@ -85,23 +77,22 @@ index 24022e0..529ef2f 100644
 -        self._show_journal_alert(
 -            _('Chart created'), _('Open in the Journal'),
 -            journal_entry.object_id)
-+        chooser = DesktopSaveChooser(self, filename=_("Untitled") + ".png")
++        chooser = DesktopSaveChooser(self, filename=_("Untitled") + '.png')
 +        filename = chooser.get_filename()
 +        if filename:
-+            image_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.png', dir=activity.get_activity_root())
-+            self.chart.generate_image(image_file.file, 800, 600)
-+            image_file.file.close()
-+            shutil.copyfile(image_file.name,filename)
++            image_file = open(filename, 'wb')
++            self.chart.generate_image(image_file, 800, 600)
++            image_file.close()
  
      def _show_journal_alert(self, title, msg, object_id):
          open_alert = Alert()
-@@ -1027,21 +1013,16 @@ class Finance(activity.Activity):
+@@ -1027,21 +1011,12 @@ class Finance(activity.Activity):
          chart_params['chart_data'] = data
  
          logging.debug('chart_data %s', chart_params)
 +        self.export_data.props.palette.popdown(immediate=True)
  
-+        chooser = DesktopSaveChooser(self, filename=_("Untitled")+".json")
++        chooser = DesktopSaveChooser(self, filename=_("Untitled")+'.json')
 +        filename = chooser.get_filename()
          # save to the journal
 -        data_file = tempfile.NamedTemporaryFile(mode='w+b', suffix='.json')
@@ -115,15 +106,12 @@ index 24022e0..529ef2f 100644
 -        data_file.file.close()
 -        journal_entry.file_path = data_file.name
 -
-+        if filename:
-+            data_file = tempfile.NamedTemporaryFile(mode='w', suffix='.json',
-+                                                dir=activity.get_activity_root())
-+            json.dump(chart_params, data_file.file)
-+            data_file.file.close()
-+            shutil.copyfile(data_file.name,filename)
-         logging.debug('Create %s data file', data_file.name)
+-        logging.debug('Create %s data file', data_file.name)
 -        datastore.write(journal_entry)
 -        self._show_journal_alert(
 -            _('Exported data'), _('Open in the Journal'),
 -            journal_entry.object_id)
-+
++        if filename:
++            with open(filename, 'w') as w:
++                json.dump(chart_params, w)
++            logging.debug('Create %s data file', data_file.name)
