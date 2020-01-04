@@ -1,5 +1,5 @@
 {
-    "app-id": "org.sugarlabs.Colordeducto",
+    "app-id": "org.sugarlabs.ColorDeducto",
     "runtime": "org.gnome.Platform",
     "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
@@ -10,8 +10,8 @@
         "--socket=pulseaudio",
         "--share=ipc",
         "--device=dri",
-        "--env=SUGAR_BUNDLE_ID=org.sugarlabs.Colordeducto",
-        "--env=SUGAR_BUNDLE_PATH=/app/share/sugar/activities/Colordeducto.activity/"
+        "--env=SUGAR_BUNDLE_ID=org.sugarlabs.ColorDeducto",
+        "--env=SUGAR_BUNDLE_PATH=/app/share/sugar/activities/ColorDeducto.activity/"
     ],
     "cleanup": [
         "/include",
@@ -230,9 +230,9 @@
             "post-install": [
                 "sugarapp-gen-appdata activity/activity.info appdata",
                 "sugarapp-gen-desktop activity/activity.info desktop",
-                "install -D appdata /app/share/metainfo/org.sugarlabs.Colordeducto.appdata.xml",
-                "install -D desktop /app/share/applications/org.sugarlabs.Colordeducto.desktop",
-                "install -D activity/activity-color-deducto.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Colordeducto.svg"
+                "install -D appdata /app/share/metainfo/org.sugarlabs.ColorDeducto.appdata.xml",
+                "install -D desktop /app/share/applications/org.sugarlabs.ColorDeducto.desktop",
+                "install -D activity/activity-color-deducto.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.ColorDeducto.svg"
             ]
         }
    ] 
