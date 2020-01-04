@@ -232,7 +232,7 @@
                 "sugarapp-gen-desktop activity/activity.info desktop",
                 "install -D appdata /app/share/metainfo/org.sugarlabs.Colordeducto.appdata.xml",
                 "install -D desktop /app/share/applications/org.sugarlabs.Colordeducto.desktop",
-                "install -D activity/Colordeducto-activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Colordeducto.svg"
+                "install -D activity/activity-color-deducto.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Colordeducto.svg"
             ]
         }
    ] 

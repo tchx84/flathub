@@ -1,8 +1,8 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index 9379315..837f09d 100644
+index 9379315..53b58c9 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
-@@ -1,10 +1,19 @@
+@@ -1,10 +1,18 @@
  [Activity]
  name = ColorDeducto
  exec = sugar-activity3 ColorDeductoActivity.ColorDeductoActivity
@@ -18,8 +18,7 @@ index 9379315..837f09d 100644
 +license = GPLv3+
  summary = a game based on logical induction
 -category = game
-+description = Color Deducto is a learning activity to help children learn the art of
-+inductive logic through pattern recognition.
++description = Color Deducto is a learning activity to help children learn the art of inductive logic through pattern recognition.
 +repository = https://github.com/sugarlabs/colordeducto
 +url = https://github.com/sugarlabs/colordeducto
 +category = Game
