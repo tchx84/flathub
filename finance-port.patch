@@ -1,5 +1,5 @@
 diff --git a/finance.py b/finance.py
-index 24022e0..2fe42df 100644
+index 24022e0..c422c06 100644
 --- a/finance.py
 +++ b/finance.py
 @@ -40,14 +40,15 @@ from sugar3.graphics.radiotoolbutton import RadioToolButton
@@ -114,4 +114,4 @@ index 24022e0..2fe42df 100644
 +        if filename:
 +            with open(filename, 'w') as w:
 +                json.dump(chart_params, w)
-+            logging.debug('Create %s data file', data_file.name)
++            logging.debug('Create %s data file'.format(filename))
