@@ -228,10 +228,10 @@
                 }
             ],
             "post-install": [
-                "python3 /app/bin/sugarapp-gen-mimetypes activity/activity.info mimetypes",
                 "sugarapp-gen-appdata activity/activity.info appdata",
-                "install -D appdata /app/share/metainfo/org.sugarlabs.Finance.appdata.xml",
+                "sugarapp-gen-mimetypes activity/activity.info mimetypes",
                 "sugarapp-gen-desktop activity/activity.info desktop --mimetypes mimetypes",
+                "install -D appdata /app/share/metainfo/org.sugarlabs.Finance.appdata.xml",
                 "install -D mimetypes /app/share/sugar/activities/Finance.activity/activity/mimetypes.xml",
                 "install -D mimetypes /app/share/mime/packages/org.sugarlabs.Finance.xml",
                 "install -D desktop /app/share/applications/org.sugarlabs.Finance.desktop",
