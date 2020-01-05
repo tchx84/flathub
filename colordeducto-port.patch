@@ -1,5 +1,5 @@
 diff --git a/ColorDeductoActivity.py b/ColorDeductoActivity.py
-index 3a24aa2..452cf7f 100644
+index 3a24aa2..dc0c7e5 100644
 --- a/ColorDeductoActivity.py
 +++ b/ColorDeductoActivity.py
 @@ -20,7 +20,6 @@ from sugar3 import profile
@@ -29,7 +29,7 @@ index 3a24aa2..452cf7f 100644
      """ Logic puzzle game """
  
  
-@@ -280,32 +282,19 @@ class ColorDeductoActivity(activity.Activity):
+@@ -280,32 +282,21 @@ class ColorDeductoActivity(activity.Activity):
          ''' Read the Python code from the Journal object '''
          self._python_code = None
          try:
@@ -63,6 +63,8 @@ index 3a24aa2..452cf7f 100644
 -                chooser.destroy()
 -                del chooser
 +        chooser = DesktopOpenChooser(self)
++        chooser.add_filter('.py', 'Python Script')
++        chooser.add_filter('.py3', 'Python3 Script')
 +        filename = chooser.get_filename()
 +        if filename:
 +            action(filename)
