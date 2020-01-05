@@ -220,6 +220,10 @@
                 },
                 {
                     "type": "patch",
+                    "path": "colordeducto-scale-fix.patch"
+                },
+                {
+                    "type": "patch",
                     "path": "colordeducto-monitors.patch"
                 },
                 {
