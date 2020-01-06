@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 1d946a4..23cdad5 100644
+index 1d946a4..24abcbd 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -22,7 +22,6 @@ from gi.repository import GdkPixbuf
@@ -21,7 +21,7 @@ index 1d946a4..23cdad5 100644
  import globos
  import persistencia
  from toolbar import TextToolbar
-@@ -98,19 +101,18 @@ class EmptyWidget(Gtk.EventBox):
+@@ -98,19 +101,19 @@ class EmptyWidget(Gtk.EventBox):
          self.emit('choose-image')
  
  
@@ -37,14 +37,14 @@ index 1d946a4..23cdad5 100644
  
          self._max_participants = 1
          self.page = None
--
+ 
          toolbar_box = ToolbarBox()
 -        activity_button = ActivityToolbarButton(self)
 +        activity_button = ExtendedActivityToolbarButton(self)
          activity_toolbar = activity_button.page
          toolbar_box.toolbar.insert(activity_button, 0)
  
-@@ -259,13 +261,18 @@ class HistorietaActivity(activity.Activity):
+@@ -259,13 +262,16 @@ class HistorietaActivity(activity.Activity):
          self._notebook.append_page(self._slideview, None)
          self._notebook.show_all()
  
@@ -59,12 +59,10 @@ index 1d946a4..23cdad5 100644
 +        empty_widget = EmptyWidget()
 +        empty_widget.connect('choose-image', self.__add_image)
 +        self.set_canvas(empty_widget)
-+
-+
          self.show()
          self.metadata['mime_type'] = 'application/x-fototoon-activity'
  
-@@ -274,7 +281,7 @@ class HistorietaActivity(activity.Activity):
+@@ -274,7 +280,7 @@ class HistorietaActivity(activity.Activity):
  
      def __add_image(self, button):
          self.set_canvas(self._notebook)
@@ -73,12 +71,7 @@ index 1d946a4..23cdad5 100644
  
      def on_title(self, widget, event):
          # unselect the active globe when editting the title
-@@ -364,34 +371,14 @@ class HistorietaActivity(activity.Activity):
-                 y_posi = box.height
- 
-             posi = posi + 1
--
-+        
+@@ -368,30 +374,10 @@ class HistorietaActivity(activity.Activity):
          temp_file_name = os.path.join(self.get_activity_root(), 'instance',
                                        'tmp-%i.png' % time.time())
  
@@ -113,7 +106,7 @@ index 1d946a4..23cdad5 100644
  
      def __image_order_cb(self, button):
          reorderwin = ReorderView(self)
-@@ -404,102 +391,74 @@ class HistorietaActivity(activity.Activity):
+@@ -404,102 +390,74 @@ class HistorietaActivity(activity.Activity):
      def _save_as_pdf(self, widget):
          self._commit_all_changes()
  
@@ -125,14 +118,12 @@ index 1d946a4..23cdad5 100644
 -        page_height = self.page.boxs[1].height
 -
 -        surface = cairo.PDFSurface(file_obj, page_width, page_height)
+-
+-        context = cairo.Context(surface)
 +        chooser = DesktopSaveChooser(self, filename='untitled.pdf')
 +        filename = chooser.get_filename()
 +        if filename:
 +            file_obj = open(filename, 'wb')
- 
--        context = cairo.Context(surface)
-+            page_width = self.page.boxs[1].width
-+            page_height = self.page.boxs[1].height
  
 -        for box in self.page.boxs[0:]:
 -            context.save()
@@ -142,12 +133,14 @@ index 1d946a4..23cdad5 100644
 -                top_margin = (page_height - box.height) // 2
 -                context.translate(0, top_margin)
 -                context.scale(scale, scale)
-+            surface = cairo.PDFSurface(file_obj, page_width, page_height)
++            page_width = self.page.boxs[1].width
++            page_height = self.page.boxs[1].height
  
 -            box.draw_in_context(context)
 -            context.show_page()
 -            context.restore()
--
++            surface = cairo.PDFSurface(file_obj, page_width, page_height)
+ 
 -        surface.finish()
 -        file_obj.close()
 -
@@ -185,33 +178,20 @@ index 1d946a4..23cdad5 100644
  
      def __save_as_ogg_cb(self, button):
          self._commit_all_changes()
--
+ 
 -        directory = tempfile.mkdtemp()
 -        output_path = os.path.join(directory, 'output.ogv')
 -
 -        first_box = self.page.boxs[1]
 -        width = first_box.width
 -        height = first_box.height
--
--        framerate = first_box.slideshow_duration
--        if len(self.page.boxs) > 2:
-+        
 +        chooser = DesktopSaveChooser(self, filename='untitled.ogv')
 +        output_path = chooser.get_filename()
 +        if output_path:
-+
-+            first_box = self.page.boxs[1]
-+            width = first_box.width
-+            height = first_box.height
-+
-+            framerate = first_box.slideshow_duration
-+            if len(self.page.boxs) > 2:
-+                for box in self.page.boxs[1:]:
-+                    framerate = gcd(framerate, box.slideshow_duration)
-+            framerate = int(framerate)
-+
-+            i = 0
-             for box in self.page.boxs[1:]:
+ 
+-        framerate = first_box.slideshow_duration
+-        if len(self.page.boxs) > 2:
+-            for box in self.page.boxs[1:]:
 -                framerate = gcd(framerate, box.slideshow_duration)
 -        framerate = int(framerate)
 -
@@ -219,15 +199,25 @@ index 1d946a4..23cdad5 100644
 -        for box in self.page.boxs[1:]:
 -            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
 -            context = cairo.Context(surface)
--
++            first_box = self.page.boxs[1]
++            width = first_box.width
++            height = first_box.height
+ 
 -            context.set_source_rgb(1.0, 1.0, 1.0)
 -            context.paint()
 -            box.draw_in_context(context)
--
++            framerate = first_box.slideshow_duration
++            if len(self.page.boxs) > 2:
++                for box in self.page.boxs[1:]:
++                    framerate = gcd(framerate, box.slideshow_duration)
++            framerate = int(framerate)
+ 
 -            for __ in range(int(box.slideshow_duration // framerate)):
 -                path = os.path.join(directory, '{}.png'.format(i))
 -                surface.write_to_png(path)
 -                i += 1
++            i = 0
++            for box in self.page.boxs[1:]:
 +                surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
 +                context = cairo.Context(surface)
  
@@ -270,7 +260,7 @@ index 1d946a4..23cdad5 100644
  
      def _show_journal_alert(self, title, msg):
 diff --git a/toolbar.py b/toolbar.py
-index 32407af..accfc64 100644
+index 32407af..24cab2a 100644
 --- a/toolbar.py
 +++ b/toolbar.py
 @@ -31,8 +31,8 @@ from sugar3.graphics.toolcombobox import ToolComboBox
@@ -293,7 +283,7 @@ index 32407af..accfc64 100644
  
      def girar(self, boton):
          # veo cual es el globo seleccionado y o giro
-@@ -215,33 +215,18 @@ class GlobesManager():
+@@ -215,32 +215,17 @@ class GlobesManager():
              self._page.boxs.pop()
              self._page.table.remove(last_box)
  
@@ -323,7 +313,6 @@ index 32407af..accfc64 100644
 -        finally:
 -            chooser.destroy()
 -            del chooser
--
 +    def add_image(self, parent):
 +
 +        chooser = DesktopOpenChooser(parent)
@@ -335,7 +324,6 @@ index 32407af..accfc64 100644
 +            logging.debug("imagen seleccionada: %s",
 +                            file_path)
 +            self._page.add_box_from_journal_image(file_path)
-+            
+ 
  
  class TextToolbar(Gtk.Toolbar):
- 
