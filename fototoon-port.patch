@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 1d946a4..3ffe643 100644
+index 1d946a4..e80340f 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -22,7 +22,6 @@ from gi.repository import GdkPixbuf
@@ -53,15 +53,6 @@ index 1d946a4..3ffe643 100644
              empty_widget = EmptyWidget()
              empty_widget.connect('choose-image', self.__add_image)
              self.set_canvas(empty_widget)
-@@ -274,7 +277,7 @@ class HistorietaActivity(activity.Activity):
- 
-     def __add_image(self, button):
-         self.set_canvas(self._notebook)
--        self.globes_manager.add_image()
-+        self.globes_manager.add_image(self)
- 
-     def on_title(self, widget, event):
-         # unselect the active globe when editting the title
 @@ -365,33 +368,10 @@ class HistorietaActivity(activity.Activity):
  
              posi = posi + 1
@@ -256,7 +247,7 @@ index 1d946a4..3ffe643 100644
  
      def _show_journal_alert(self, title, msg):
 diff --git a/toolbar.py b/toolbar.py
-index 32407af..24cab2a 100644
+index 32407af..e7c8def 100644
 --- a/toolbar.py
 +++ b/toolbar.py
 @@ -31,8 +31,8 @@ from sugar3.graphics.toolcombobox import ToolComboBox
@@ -270,20 +261,10 @@ index 32407af..24cab2a 100644
  
  from fontcombobox import FontComboBox
  from fontcombobox import FontSize
-@@ -175,7 +175,7 @@ class GlobesManager():
-                 60, 60, font_name=selected_font_name)
- 
-     def __add_photo_clicked_cb(self, button):
--            self.add_image()
-+            self.add_image(self._activity)
- 
-     def girar(self, boton):
-         # veo cual es el globo seleccionado y o giro
-@@ -215,32 +215,17 @@ class GlobesManager():
-             self._page.boxs.pop()
+@@ -216,31 +216,16 @@ class GlobesManager():
              self._page.table.remove(last_box)
  
--    def add_image(self):
+     def add_image(self):
 -        try:
 -            chooser = ObjectChooser(self._activity, what_filter='Image',
 -                                    filter_type=FILTER_TYPE_GENERIC_MIME,
@@ -309,9 +290,8 @@ index 32407af..24cab2a 100644
 -        finally:
 -            chooser.destroy()
 -            del chooser
-+    def add_image(self, parent):
 +
-+        chooser = DesktopOpenChooser(parent)
++        chooser = DesktopOpenChooser(self._activity)
 +        chooser.add_filter('.png', 'Portable Network Graphics (.png)')
 +        chooser.add_filter('.jpg', 'JPG Images (.jpg)')
 +        chooser.add_filter('.jpeg', 'JPG Images (.jpeg)')
