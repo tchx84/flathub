@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 1d946a4..e80340f 100644
+index 1d946a4..546a2f1 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -22,7 +22,6 @@ from gi.repository import GdkPixbuf
@@ -91,44 +91,26 @@ index 1d946a4..e80340f 100644
  
      def __image_order_cb(self, button):
          reorderwin = ReorderView(self)
-@@ -404,102 +384,76 @@ class HistorietaActivity(activity.Activity):
+@@ -404,9 +384,12 @@ class HistorietaActivity(activity.Activity):
      def _save_as_pdf(self, widget):
          self._commit_all_changes()
  
 -        file_name = os.path.join(activity.get_activity_root(), 'instance',
 -                                 'tmp-%i.pdf' % time.time())
 -        file_obj = open(file_name, 'wb')
--
--        page_width = self.page.boxs[1].width
--        page_height = self.page.boxs[1].height
--
--        surface = cairo.PDFSurface(file_obj, page_width, page_height)
 +        chooser = DesktopSaveChooser(self, filename='untitled.pdf')
 +        filename = chooser.get_filename()
-+        if filename:
-+            file_obj = open(filename, 'wb')
++        if not filename:
++            return
++        
++        file_obj = open(filename, 'wb')
  
--        context = cairo.Context(surface)
-+            page_width = self.page.boxs[1].width
-+            page_height = self.page.boxs[1].height
+         page_width = self.page.boxs[1].width
+         page_height = self.page.boxs[1].height
+@@ -431,27 +414,14 @@ class HistorietaActivity(activity.Activity):
+         surface.finish()
+         file_obj.close()
  
--        for box in self.page.boxs[0:]:
--            context.save()
--            if box.width != page_width:
--                # for the first box, scale and center
--                scale = float(page_width) / float(box.width)
--                top_margin = (page_height - box.height) // 2
--                context.translate(0, top_margin)
--                context.scale(scale, scale)
-+            surface = cairo.PDFSurface(file_obj, page_width, page_height)
- 
--            box.draw_in_context(context)
--            context.show_page()
--            context.restore()
--
--        surface.finish()
--        file_obj.close()
--
 -        jobject = datastore.create()
 -        jobject.metadata['icon-color'] = \
 -            profile.get_color().to_string()
@@ -137,92 +119,30 @@ index 1d946a4..e80340f 100644
 -        jobject.metadata['title'] = \
 -            self.metadata['title'] + " as book"
 -        jobject.file_path = file_name
-+            context = cairo.Context(surface)
- 
+-
 -        # jobject.metadata['preview'] = \
 -        #    self._get_preview_image(file_name)
-+            for box in self.page.boxs[0:]:
-+                context.save()
-+                if box.width != page_width:
-+                    # for the first box, scale and center
-+                    scale = float(page_width) / float(box.width)
-+                    top_margin = (page_height - box.height) // 2
-+                    context.translate(0, top_margin)
-+                    context.scale(scale, scale)
- 
+-
 -        datastore.write(jobject, transfer_ownership=True)
 -        self._object_id = jobject.object_id
-+                box.draw_in_context(context)
-+                context.show_page()
-+                context.restore()
- 
+-
 -        self._show_journal_alert(_('Success'),
 -                                 _('A PDF was created in the Journal'))
-+            surface.finish()
-+            file_obj.close()
- 
+-
      def __save_as_ogg_cb(self, button):
          self._commit_all_changes()
  
--        directory = tempfile.mkdtemp()
--        output_path = os.path.join(directory, 'output.ogv')
 +        chooser = DesktopSaveChooser(self, filename='untitled.ogv')
 +        output_path = chooser.get_filename()
-+        if output_path:
-+            directory = tempfile.mkdtemp()
-+            output_path = os.path.join(directory, 'output.ogv')
++        if not output_path:
++            return
++        
+         directory = tempfile.mkdtemp()
+         output_path = os.path.join(directory, 'output.ogv')
  
--        first_box = self.page.boxs[1]
--        width = first_box.width
--        height = first_box.height
-+            first_box = self.page.boxs[1]
-+            width = first_box.width
-+            height = first_box.height
- 
--        framerate = first_box.slideshow_duration
--        if len(self.page.boxs) > 2:
--            for box in self.page.boxs[1:]:
--                framerate = gcd(framerate, box.slideshow_duration)
--        framerate = int(framerate)
-+            framerate = first_box.slideshow_duration
-+            if len(self.page.boxs) > 2:
-+                for box in self.page.boxs[1:]:
-+                    framerate = gcd(framerate, box.slideshow_duration)
-+            framerate = int(framerate)
- 
--        i = 0
--        for box in self.page.boxs[1:]:
--            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
--            context = cairo.Context(surface)
--
--            context.set_source_rgb(1.0, 1.0, 1.0)
--            context.paint()
--            box.draw_in_context(context)
--
--            for __ in range(int(box.slideshow_duration // framerate)):
--                path = os.path.join(directory, '{}.png'.format(i))
--                surface.write_to_png(path)
--                i += 1
-+            i = 0
-+            for box in self.page.boxs[1:]:
-+                surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
-+                context = cairo.Context(surface)
- 
--        pipeline_string = VIDEO_PIPELINE.format(
--            os.path.join(directory, '%d.png'), framerate, output_path)
--        pipeline = Gst.parse_launch(pipeline_string)
-+                context.set_source_rgb(1.0, 1.0, 1.0)
-+                context.paint()
-+                box.draw_in_context(context)
- 
--        pipeline.set_state(Gst.State.PLAYING)
--        pipeline.get_bus().timed_pop_filtered(
--            Gst.CLOCK_TIME_NONE, Gst.MessageType.ERROR | Gst.MessageType.EOS)
--        pipeline.set_state(Gst.State.NULL)
-+                for __ in range(int(box.slideshow_duration // framerate)):
-+                    path = os.path.join(directory, '{}.png'.format(i))
-+                    surface.write_to_png(path)
-+                    i += 1
+@@ -488,18 +458,6 @@ class HistorietaActivity(activity.Activity):
+             Gst.CLOCK_TIME_NONE, Gst.MessageType.ERROR | Gst.MessageType.EOS)
+         pipeline.set_state(Gst.State.NULL)
  
 -        jobject = datastore.create()
 -        jobject.metadata['icon-color'] = profile.get_color().to_string()
@@ -230,17 +150,10 @@ index 1d946a4..e80340f 100644
 -        jobject.metadata['title'] = \
 -            _('{} as a movie').format(self.metadata['title'])
 -        jobject.file_path = output_path
-+            pipeline_string = VIDEO_PIPELINE.format(
-+                os.path.join(directory, '%d.png'), framerate, output_path)
-+            pipeline = Gst.parse_launch(pipeline_string)
- 
+-
 -        datastore.write(jobject, transfer_ownership=True)
 -        self._object_id = jobject.object_id
-+            pipeline.set_state(Gst.State.PLAYING)
-+            pipeline.get_bus().timed_pop_filtered(
-+                Gst.CLOCK_TIME_NONE, Gst.MessageType.ERROR | Gst.MessageType.EOS)
-+            pipeline.set_state(Gst.State.NULL)
- 
+-
 -        self._show_journal_alert(_('Success'),
 -                                 _('A movie was saved in the Journal'))
          shutil.rmtree(directory)
