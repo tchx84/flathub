@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 24abcbd..dfe42ce 100644
+index c515feb..39d62fc 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -34,6 +34,7 @@ from sugar3.graphics.palette import Palette
@@ -10,7 +10,7 @@ index 24abcbd..dfe42ce 100644
  
  import globos
  import persistencia
-@@ -545,7 +546,7 @@ class HistorietaActivity(SugarCompatibleActivity):
+@@ -542,7 +543,7 @@ class HistorietaActivity(SugarCompatibleActivity):
  DEF_SPACING = 6
  DEF_WIDTH = 4
  
@@ -19,7 +19,7 @@ index 24abcbd..dfe42ce 100644
  # HACK: This is to calculate the scrollbar width
  # defined in sugar-artwork gtk-widgets.css.em
  if style.zoom(1):
-@@ -553,7 +554,7 @@ if style.zoom(1):
+@@ -550,7 +551,7 @@ if style.zoom(1):
  else:
      scrollbar_width = 11
  

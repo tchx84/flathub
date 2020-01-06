@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 1d946a4..24abcbd 100644
+index 1d946a4..c515feb 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -22,7 +22,6 @@ from gi.repository import GdkPixbuf
@@ -44,7 +44,7 @@ index 1d946a4..24abcbd 100644
          activity_toolbar = activity_button.page
          toolbar_box.toolbar.insert(activity_button, 0)
  
-@@ -259,13 +262,16 @@ class HistorietaActivity(activity.Activity):
+@@ -259,7 +262,7 @@ class HistorietaActivity(activity.Activity):
          self._notebook.append_page(self._slideview, None)
          self._notebook.show_all()
  
@@ -53,16 +53,7 @@ index 1d946a4..24abcbd 100644
              empty_widget = EmptyWidget()
              empty_widget.connect('choose-image', self.__add_image)
              self.set_canvas(empty_widget)
-         else:
-             self.set_canvas(self._notebook)
- 
-+        empty_widget = EmptyWidget()
-+        empty_widget.connect('choose-image', self.__add_image)
-+        self.set_canvas(empty_widget)
-         self.show()
-         self.metadata['mime_type'] = 'application/x-fototoon-activity'
- 
-@@ -274,7 +280,7 @@ class HistorietaActivity(activity.Activity):
+@@ -274,7 +277,7 @@ class HistorietaActivity(activity.Activity):
  
      def __add_image(self, button):
          self.set_canvas(self._notebook)
@@ -71,7 +62,7 @@ index 1d946a4..24abcbd 100644
  
      def on_title(self, widget, event):
          # unselect the active globe when editting the title
-@@ -368,30 +374,10 @@ class HistorietaActivity(activity.Activity):
+@@ -368,30 +371,10 @@ class HistorietaActivity(activity.Activity):
          temp_file_name = os.path.join(self.get_activity_root(), 'instance',
                                        'tmp-%i.png' % time.time())
  
@@ -106,7 +97,7 @@ index 1d946a4..24abcbd 100644
  
      def __image_order_cb(self, button):
          reorderwin = ReorderView(self)
-@@ -404,102 +390,74 @@ class HistorietaActivity(activity.Activity):
+@@ -404,102 +387,74 @@ class HistorietaActivity(activity.Activity):
      def _save_as_pdf(self, widget):
          self._commit_all_changes()
  
