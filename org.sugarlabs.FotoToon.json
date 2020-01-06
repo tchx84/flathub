@@ -235,7 +235,7 @@
                 "install -D mimetypes /app/share/sugar/activities/FotoToon.activity/activity/mimetypes.xml",
                 "install -D mimetypes /app/share/mime/packages/org.sugarlabs.FotoToon.xml",
                 "install -D desktop /app/share/applications/org.sugarlabs.FotoToon.desktop",
-                "install -D activity/FotoToon-activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.FotoToon.svg"
+                "install -D activity/historieta.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.FotoToon.svg"
             ]
         }
    ] 
