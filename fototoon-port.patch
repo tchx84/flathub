@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 1d946a4..546a2f1 100644
+index 1d946a4..f03a654 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -22,7 +22,6 @@ from gi.repository import GdkPixbuf
@@ -107,7 +107,7 @@ index 1d946a4..546a2f1 100644
  
          page_width = self.page.boxs[1].width
          page_height = self.page.boxs[1].height
-@@ -431,27 +414,14 @@ class HistorietaActivity(activity.Activity):
+@@ -431,75 +414,48 @@ class HistorietaActivity(activity.Activity):
          surface.finish()
          file_obj.close()
  
@@ -132,17 +132,65 @@ index 1d946a4..546a2f1 100644
      def __save_as_ogg_cb(self, button):
          self._commit_all_changes()
  
+-        directory = tempfile.mkdtemp()
+-        output_path = os.path.join(directory, 'output.ogv')
 +        chooser = DesktopSaveChooser(self, filename='untitled.ogv')
 +        output_path = chooser.get_filename()
-+        if not output_path:
-+            return
-+        
-         directory = tempfile.mkdtemp()
-         output_path = os.path.join(directory, 'output.ogv')
++        if output_path:
++            directory = tempfile.mkdtemp()
++            output_path = os.path.join(directory, 'output.ogv')
  
-@@ -488,18 +458,6 @@ class HistorietaActivity(activity.Activity):
-             Gst.CLOCK_TIME_NONE, Gst.MessageType.ERROR | Gst.MessageType.EOS)
-         pipeline.set_state(Gst.State.NULL)
+-        first_box = self.page.boxs[1]
+-        width = first_box.width
+-        height = first_box.height
++            first_box = self.page.boxs[1]
++            width = first_box.width
++            height = first_box.height
+ 
+-        framerate = first_box.slideshow_duration
+-        if len(self.page.boxs) > 2:
+-            for box in self.page.boxs[1:]:
+-                framerate = gcd(framerate, box.slideshow_duration)
+-        framerate = int(framerate)
++            framerate = first_box.slideshow_duration
++            if len(self.page.boxs) > 2:
++                for box in self.page.boxs[1:]:
++                    framerate = gcd(framerate, box.slideshow_duration)
++            framerate = int(framerate)
+ 
+-        i = 0
+-        for box in self.page.boxs[1:]:
+-            surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
+-            context = cairo.Context(surface)
+-
+-            context.set_source_rgb(1.0, 1.0, 1.0)
+-            context.paint()
+-            box.draw_in_context(context)
+-
+-            for __ in range(int(box.slideshow_duration // framerate)):
+-                path = os.path.join(directory, '{}.png'.format(i))
+-                surface.write_to_png(path)
+-                i += 1
++            i = 0
++            for box in self.page.boxs[1:]:
++                surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, width, height)
++                context = cairo.Context(surface)
+ 
+-        pipeline_string = VIDEO_PIPELINE.format(
+-            os.path.join(directory, '%d.png'), framerate, output_path)
+-        pipeline = Gst.parse_launch(pipeline_string)
++                context.set_source_rgb(1.0, 1.0, 1.0)
++                context.paint()
++                box.draw_in_context(context)
+ 
+-        pipeline.set_state(Gst.State.PLAYING)
+-        pipeline.get_bus().timed_pop_filtered(
+-            Gst.CLOCK_TIME_NONE, Gst.MessageType.ERROR | Gst.MessageType.EOS)
+-        pipeline.set_state(Gst.State.NULL)
++                for __ in range(int(box.slideshow_duration // framerate)):
++                    path = os.path.join(directory, '{}.png'.format(i))
++                    surface.write_to_png(path)
++                    i += 1
  
 -        jobject = datastore.create()
 -        jobject.metadata['icon-color'] = profile.get_color().to_string()
@@ -150,10 +198,17 @@ index 1d946a4..546a2f1 100644
 -        jobject.metadata['title'] = \
 -            _('{} as a movie').format(self.metadata['title'])
 -        jobject.file_path = output_path
--
++            pipeline_string = VIDEO_PIPELINE.format(
++                os.path.join(directory, '%d.png'), framerate, output_path)
++            pipeline = Gst.parse_launch(pipeline_string)
+ 
 -        datastore.write(jobject, transfer_ownership=True)
 -        self._object_id = jobject.object_id
--
++            pipeline.set_state(Gst.State.PLAYING)
++            pipeline.get_bus().timed_pop_filtered(
++                Gst.CLOCK_TIME_NONE, Gst.MessageType.ERROR | Gst.MessageType.EOS)
++            pipeline.set_state(Gst.State.NULL)
+ 
 -        self._show_journal_alert(_('Success'),
 -                                 _('A movie was saved in the Journal'))
          shutil.rmtree(directory)
