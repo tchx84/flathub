@@ -1,5 +1,5 @@
 diff --git a/historietaactivity.py b/historietaactivity.py
-index 1d946a4..f03a654 100644
+index 1d946a4..524ee2a 100644
 --- a/historietaactivity.py
 +++ b/historietaactivity.py
 @@ -22,7 +22,6 @@ from gi.repository import GdkPixbuf
@@ -84,7 +84,7 @@ index 1d946a4..f03a654 100644
 -        self._object_id = self.dl_jobject.object_id
 -        self._show_journal_alert(_('Success'),
 -                                 _('A image was created in the Journal'))
-+        chooser = DesktopSaveChooser(self, filename='untitled.png')
++        chooser = DesktopSaveChooser(self, filename=_("Untitled") + '.png')
 +        filename = chooser.get_filename()
 +        if filename:
 +            surface.write_to_png(filename)
@@ -98,7 +98,7 @@ index 1d946a4..f03a654 100644
 -        file_name = os.path.join(activity.get_activity_root(), 'instance',
 -                                 'tmp-%i.pdf' % time.time())
 -        file_obj = open(file_name, 'wb')
-+        chooser = DesktopSaveChooser(self, filename='untitled.pdf')
++        chooser = DesktopSaveChooser(self, filename=_("Untitled") + '.pdf')
 +        filename = chooser.get_filename()
 +        if not filename:
 +            return
@@ -134,7 +134,7 @@ index 1d946a4..f03a654 100644
  
 -        directory = tempfile.mkdtemp()
 -        output_path = os.path.join(directory, 'output.ogv')
-+        chooser = DesktopSaveChooser(self, filename='untitled.ogv')
++        chooser = DesktopSaveChooser(self, filename=_("Untitled") + '.ogv')
 +        output_path = chooser.get_filename()
 +        if output_path:
 +            directory = tempfile.mkdtemp()
