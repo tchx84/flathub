@@ -1,0 +1,24 @@
+diff --git a/activity/activity.info b/activity/activity.info
+index ae1317b..d6b416c 100644
+--- a/activity/activity.info
++++ b/activity/activity.info
+@@ -1,6 +1,18 @@
+ [Activity]
+ name = Mastermind
+-bundle_id = org.laptop.Mastermind
++bundle_id = org.sugarlabs.Mastermind
+ icon = icon
+ exec = sugar-activity3 activity.Mastermind
+ activity_version = 1
++release_date = 2020-01-20
++metadata_license = CC0-1.0
++license = GPLv3+
++summary = Mastermind game for Sugar.
++description = Mastermind game for Sugar! Drag and drop the colors in correct places for win. 
++repository = https://github.com/sugarlabs/mastermind-activity
++url = https://github.com/sugarlabs/mastermind-activity
++category = Game
++tags = Game
++update_contact = tch@sugarlabs.org
++developer_name = Sugar Labs Community
++screenshots = http://activities.sugarlabs.org/en-US/sugar/images/p/1290/1484276276.png
