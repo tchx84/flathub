@@ -1,0 +1,23 @@
+diff --git a/activity.py b/activity.py
+index 9028311..3e237a8 100644
+--- a/activity.py
++++ b/activity.py
+@@ -6,6 +6,7 @@ from sugarapp.widgets import ExtendedActivityToolbarButton
+ from sugar3.graphics.toolbarbox import ToolbarBox
+ from sugarapp.widgets import SugarCompatibleActivity
+ from sugar3.graphics.style import GRID_CELL_SIZE
++from sugarapp.helpers import PrimaryMonitor
+ import pygame
+ from gettext import gettext as _
+ 
+@@ -39,8 +40,8 @@ class Falabracman(SugarCompatibleActivity):
+ 
+         # Note that set_canvas implicitly calls read_file when
+         # resuming from the Journal.
+-        w = Gdk.Screen.width()
+-        h = Gdk.Screen.height() - GRID_CELL_SIZE
++        w = PrimaryMonitor.width()
++        h = PrimaryMonitor.height() - GRID_CELL_SIZE
+ 
+         self._pygamecanvas.set_size_request(w, h)
+         self.set_canvas(self._pygamecanvas)

@@ -1,0 +1,38 @@
+diff --git a/activity.py b/activity.py
+index 76d7a10..9028311 100644
+--- a/activity.py
++++ b/activity.py
+@@ -2,9 +2,9 @@ import falabracman
+ import sugargame.canvas
+ from sugar3.activity.widgets import StopButton
+ from sugar3.graphics.toolbutton import ToolButton
+-from sugar3.activity.widgets import ActivityToolbarButton
++from sugarapp.widgets import ExtendedActivityToolbarButton
+ from sugar3.graphics.toolbarbox import ToolbarBox
+-from sugar3.activity.activity import Activity
++from sugarapp.widgets import SugarCompatibleActivity
+ from sugar3.graphics.style import GRID_CELL_SIZE
+ import pygame
+ from gettext import gettext as _
+@@ -18,10 +18,10 @@ from gi.repository import Gtk, Gdk
+ sys.path.append('..')  # Import sugargame package from top directory.
+ 
+ 
+-class Falabracman(Activity):
++class Falabracman(SugarCompatibleActivity):
+ 
+     def __init__(self, handle):
+-        Activity.__init__(self, handle)
++        SugarCompatibleActivity.__init__(self, handle)
+ 
+         self.paused = False
+ 
+@@ -51,7 +51,7 @@ class Falabracman(Activity):
+         self.set_toolbar_box(toolbar_box)
+         toolbar_box.show()
+ 
+-        activity_button = ActivityToolbarButton(self)
++        activity_button = ExtendedActivityToolbarButton(self)
+         toolbar_box.toolbar.insert(activity_button, -1)
+         activity_button.show()
+ 
