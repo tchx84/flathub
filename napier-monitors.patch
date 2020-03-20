@@ -1,0 +1,35 @@
+diff --git a/NapierActivity.py b/NapierActivity.py
+index a3b130f..9ee7cbd 100644
+--- a/NapierActivity.py
++++ b/NapierActivity.py
+@@ -26,6 +26,7 @@ from sugar3.bundle.activitybundle import ActivityBundle
+ from sugarapp.widgets import ExtendedActivityToolbarButton
+ from sugar3.activity.widgets import StopButton
+ from sugar3.graphics.toolbarbox import ToolbarButton
++from sugarapp.helpers import PrimaryMonitor
+ 
+ from toolbar_utils import button_factory, separator_factory, label_factory
+ from sprites import Sprites, Sprite
+@@ -179,8 +180,9 @@ class NapierActivity(SugarCompatibleActivity):
+     def _setup_canvas(self):
+         ''' Create a canvas '''
+         self._canvas = Gtk.DrawingArea()
+-        self._canvas.set_size_request(Gdk.Screen.width(),
+-                                      Gdk.Screen.height())
++        w = PrimaryMonitor.width()
++        h = PrimaryMonitor.height()
++        self._canvas.set_size_request(w,h)
+         self.set_canvas(self._canvas)
+         self._canvas.show()
+         self.show_all()
+@@ -194,8 +196,8 @@ class NapierActivity(SugarCompatibleActivity):
+ 
+     def _setup_workspace(self):
+         ''' Add the bones. '''
+-        self._width = Gdk.Screen.width()
+-        self._height = int(Gdk.Screen.height() - (GRID_CELL_SIZE * 2))
++        self._width = PrimaryMonitor.width()
++        self._height = int(PrimaryMonitor.height() - (GRID_CELL_SIZE * 2))
+         self._scale = self._height * 1.0 / BONE_HEIGHT
+         self._bone_width = int(BONE_WIDTH * self._scale)
+         self._bone_height = int(BONE_HEIGHT * self._scale)
