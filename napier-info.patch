@@ -1,12 +1,14 @@
 diff --git a/activity/activity.info b/activity/activity.info
-index 609f93c..3472d9c 100644
+index 609f93c..958854d 100644
 --- a/activity/activity.info
 +++ b/activity/activity.info
-@@ -2,9 +2,18 @@
+@@ -1,10 +1,19 @@
+ [Activity]
  name = Napier
  activity_version = 5
- license = GPLv3
+-license = GPLv3
 -bundle_id = org.sugarlabs.NapierActivity
++license = GPLv3+
 +bundle_id = org.sugarlabs.Napier
  exec = sugar-activity3 NapierActivity.NapierActivity
  icon = activity-napier
@@ -21,4 +23,4 @@ index 609f93c..3472d9c 100644
 +developer_name = Sugar Labs Community
 +repository = https://github.com/sugarlabs/napier.git
 +url = https://activities.sugarlabs.org/en-US/sugar/addon/4429
-+screenshots = https://activities.sugarlabs.org/en-US/sugar/images/t/611/1303222780
++screenshots = https://i.imgur.com/c508M4A.png
