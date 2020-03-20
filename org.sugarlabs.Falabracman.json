@@ -1,5 +1,5 @@
 {
-    "app-id": "org.sugarlabs.falabracmanActivity",
+    "app-id": "org.sugarlabs.Falabracman",
     "runtime": "org.gnome.Platform",
     "runtime-version": "3.34",
     "sdk": "org.gnome.Sdk",
@@ -10,7 +10,7 @@
         "--socket=pulseaudio",
         "--share=ipc",
         "--device=dri",
-        "--env=SUGAR_BUNDLE_ID=org.sugarlabs.falabracmanActivity",
+        "--env=SUGAR_BUNDLE_ID=org.sugarlabs.Falabracman",
         "--env=SUGAR_BUNDLE_PATH=/app/share/sugar/activities/falabracman.activity/"
     ],
     "cleanup": [
@@ -231,9 +231,9 @@
             "post-install": [
                 "sugarapp-gen-appdata activity/activity.info appdata",
                 "sugarapp-gen-desktop activity/activity.info desktop",
-                "install -D appdata /app/share/metainfo/org.sugarlabs.falabracmanActivity.appdata.xml",
-                "install -D desktop /app/share/applications/org.sugarlabs.falabracmanActivity.desktop",
-                "install -D activity/activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.falabracmanActivity.svg"
+                "install -D appdata /app/share/metainfo/org.sugarlabs.Falabracman.appdata.xml",
+                "install -D desktop /app/share/applications/org.sugarlabs.Falabracman.desktop",
+                "install -D activity/activity.svg /app/share/icons/hicolor/scalable/apps/org.sugarlabs.Falabracman.svg"
             ]
         }
    ]
