@@ -1,0 +1,76 @@
+diff --git a/NapierActivity.py b/NapierActivity.py
+index ad622cc..a3b130f 100644
+--- a/NapierActivity.py
++++ b/NapierActivity.py
+@@ -14,15 +14,16 @@
+ 
+ import os
+ import gi
++import json
+ gi.require_version('Gtk', '3.0')
+ gi.require_version('PangoCairo', '1.0')
+ from gi.repository import Gtk, Gdk, GObject, GdkPixbuf
+ import sugar3
+-from sugar3.activity import activity
++from sugarapp.widgets import SugarCompatibleActivity
+ from sugar3 import profile
+ from sugar3.graphics.toolbarbox import ToolbarBox
+ from sugar3.bundle.activitybundle import ActivityBundle
+-from sugar3.activity.widgets import ActivityToolbarButton
++from sugarapp.widgets import ExtendedActivityToolbarButton
+ from sugar3.activity.widgets import StopButton
+ from sugar3.graphics.toolbarbox import ToolbarButton
+ 
+@@ -145,7 +146,7 @@ def _load_svg_from_file(file_path, width, height):
+     return GdkPixbuf.Pixbuf.new_from_file_at_size(file_path, width, height)
+ 
+ 
+-class NapierActivity(activity.Activity):
++class NapierActivity(SugarCompatibleActivity):
+     ''' Napier's bones: Napier's bones were invented by John Napier
+     (1550-1617), a Scottish mathematician and scientist. They help you
+     to do multiplication. '''
+@@ -174,7 +175,6 @@ class NapierActivity(activity.Activity):
+         self._circles = [None, None]
+         self._ovals = []
+         self._setup_workspace()
+-        self._restore()
+ 
+     def _setup_canvas(self):
+         ''' Create a canvas '''
+@@ -231,7 +231,7 @@ class NapierActivity(activity.Activity):
+         toolbox = ToolbarBox()
+ 
+         # Activity toolbar
+-        activity_button = ActivityToolbarButton(self)
++        activity_button = ExtendedActivityToolbarButton(self)
+ 
+         toolbox.toolbar.insert(activity_button, 0)
+         activity_button.show()
+@@ -362,15 +362,21 @@ class NapierActivity(activity.Activity):
+     def _destroy_cb(self, win, event):
+         Gtk.main_quit()
+ 
+-    def _restore(self):
++    def read_file(self, file_path):
+         ''' Try to restore previous state. '''
+-        if 'number' in self.metadata and self.metadata['number'] != '0':
+-            for digit in range(len(self.metadata['number'])):
++        with open(file_path, 'r') as save_file:
++            data = save_file.read()
++            metadata = json.loads(data)
++        if 'number' in metadata and metadata['number'] != '0':
++            for digit in range(len(metadata['number'])):
+                 self._number_cb(button=None,
+-                                value=int(self.metadata['number'][digit]))
++                                value=int(metadata['number'][digit]))
+ 
+     def write_file(self, file_path):
+         ''' Write the status to the Journal. '''
++        metadata = {}
+         if not hasattr(self, '_number'):
+             return
+-        self.metadata['number'] = str(self._number)
++        metadata['number'] = str(self._number)
++        with open(file_path, 'w') as save_file:
++            save_file.write(json.dumps(metadata))
