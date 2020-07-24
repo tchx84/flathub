@@ -1,0 +1,48 @@
+{
+    "app-id": "org.sugarlabs.MusicBlocks",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "3.36",
+    "sdk": "org.gnome.Sdk",
+    "command": "launcher",
+    "finish-args": [
+        "--share=network",
+        "--socket=wayland",
+        "--socket=fallback-x11",
+        "--socket=pulseaudio",
+        "--env=DATA_PATH=/app/share",
+        "--env=SCRIPTS_PATH=/app/bin"
+    ],
+    "modules": [
+        {
+            "name": "launcher",
+            "buildsystem": "simple",
+            "build-commands": [
+                "python3 launcher/setup.py install --prefix=${FLATPAK_DEST}"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/sugarlabs/musicblocks-launcher",
+                    "tag": "v1.0.2",
+                    "commit": "6c59a32dae1a9e113543646cf445cbc26790d989"
+                }
+            ]
+        },
+        {
+            "name": "musicblocks",
+            "buildsystem": "simple",
+            "build-commands": [
+                "mv musicblocks /app/share/"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/sugarlabs/musicblocks",
+                    "tag": "v3.1",
+                    "commit": "5a0e5fc244acd8fa806f78a937165cc2a528e68e",
+                    "dest": "musicblocks"
+                }
+            ]
+        }
+    ]
+}
