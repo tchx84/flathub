@@ -1,5 +1,5 @@
 {
-    "app-id": "org.sugarlabs.Musicblocks",
+    "app-id": "org.sugarlabs.MusicBlocks",
     "runtime": "org.gnome.Platform",
     "runtime-version": "3.36",
     "sdk": "org.gnome.Sdk",
@@ -23,9 +23,8 @@
                 {
                     "type": "git",
                     "url": "https://github.com/sugarlabs/musicblocks-launcher",
-                    "tag": "v1.0.1",
-                    "commit": "7bbabd99b691593ed575ea7e81af8108ff7e28b1",
-                    "dest": "launcher"
+                    "tag": "v1.0.2",
+                    "commit": "b711bec47ab84467ba81831adacc373147bae683"
                 }
             ]
         },
@@ -33,7 +32,7 @@
             "name": "musicblocks",
             "buildsystem": "simple",
             "build-commands": [
-                "cp -ra musicblocks/* /app/share/musicblocks/"
+                "mv musicblocks /app/share/"
             ],
             "sources": [
                 {
