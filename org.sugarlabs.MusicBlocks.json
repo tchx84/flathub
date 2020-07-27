@@ -9,22 +9,21 @@
         "--socket=wayland",
         "--socket=fallback-x11",
         "--socket=pulseaudio",
-        "--env=DATA_PATH=/app/share",
-        "--env=SCRIPTS_PATH=/app/bin"
+        "--env=MUSICBLOCKS_PATH=/app/share/musicblocks"
     ],
     "modules": [
         {
             "name": "launcher",
             "buildsystem": "simple",
             "build-commands": [
-                "python3 launcher/setup.py install --prefix=${FLATPAK_DEST}"
+                "python3 setup.py install --prefix=${FLATPAK_DEST}"
             ],
             "sources": [
                 {
                     "type": "git",
                     "url": "https://github.com/sugarlabs/musicblocks-launcher",
                     "tag": "v1.0.2",
-                    "commit": "6c59a32dae1a9e113543646cf445cbc26790d989"
+                    "commit": "cea76a0956113b10f9c9c4ad7d777f84677e504e"
                 }
             ]
         },
@@ -32,7 +31,7 @@
             "name": "musicblocks",
             "buildsystem": "simple",
             "build-commands": [
-                "mv musicblocks /app/share/"
+                "cp -ra musicblocks/* /app/share/musicblocks"
             ],
             "sources": [
                 {
